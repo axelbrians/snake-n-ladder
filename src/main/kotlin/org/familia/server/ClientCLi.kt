@@ -2,6 +2,7 @@ package org.familia.server
 
 import kotlinx.coroutines.*
 import org.familia.client.common.request.Request
+import org.familia.client.common.request.match.Match
 import org.familia.client.common.request.user.User
 import org.familia.client.common.response.Response
 import org.familia.client.common.response.user.UserResponse
@@ -21,6 +22,8 @@ fun main() {
     val objectOutput = ObjectOutputStream(socket.getOutputStream())
     val objectInput = ObjectInputStream(socket.getInputStream())
 
+    var user:User
+
     while (true) {
         println("Enter your username (3 to 8 characters):")
 
@@ -35,8 +38,8 @@ fun main() {
                 println("Username must be in 3 up to 8 characters")
             }
         }
-
-        objectOutput.writeObject(Request(User(username)))
+        user = User(username)
+        objectOutput.writeObject(Request(user))
 
 
         val response = objectInput.readObject() as Response
@@ -51,17 +54,27 @@ fun main() {
         }
     }
 
-    val readJob = handleReadMessage(coroutineScope, socket.getInputStream())
+    val readJob = handleReadMessage(coroutineScope, objectInput)
 
     while (true) {
-
+        var matching = readln()
+        if(matching == "/match 1") {
+            println("Match 2 player")
+            val match = Match(user, 1)
+            objectOutput.writeObject(Request(match))
+        }
+        else if(matching == "/match 2") {
+            val match = Match(user, 2)
+            objectOutput.writeObject(Request(match))
+        }
     }
+
+    coroutineScope.cancel()
 }
 
-private fun handleReadMessage(coroutineScope: CoroutineScope, inputStream: InputStream): Job {
+private fun handleReadMessage(coroutineScope: CoroutineScope, objectInput: ObjectInputStream): Job {
     return coroutineScope.launch {
         var crashCounter = 0
-        val objectInput = ObjectInputStream(inputStream)
 
         while (true) {
             if (crashCounter > 3) {
