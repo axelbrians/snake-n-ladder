@@ -2,10 +2,12 @@ package org.familia.server
 
 import kotlinx.coroutines.*
 import org.familia.client.common.request.Request
+import org.familia.client.common.request.board.RollDiceRequest
 import org.familia.client.common.request.match.Match
 import org.familia.client.common.request.match.MatchType
 import org.familia.client.common.request.user.User
 import org.familia.client.common.response.Response
+import org.familia.client.common.response.board.BoardResponse
 import org.familia.client.common.response.user.UserResponse
 import org.familia.client.common.status.Status
 import java.io.InputStream
@@ -23,7 +25,7 @@ fun main() {
     val objectOutput = ObjectOutputStream(socket.getOutputStream())
     val objectInput = ObjectInputStream(socket.getInputStream())
 
-    var user:User
+    var user: User
 
     while (true) {
         println("Enter your username (3 to 8 characters):")
@@ -55,21 +57,32 @@ fun main() {
         }
     }
 
-    val readJob = handleReadMessage(coroutineScope, objectInput)
+    handleReadMessage(coroutineScope, objectInput)
 
     while (true) {
         val matching = readln()
-        if (matching == "/match 1") {
-            println("Entering match queue for 2 player")
-            val match = Match(user, MatchType.TwoPlayer)
-            objectOutput.writeObject(Request(match))
-        } else if (matching == "/match 2") {
-            println("Entering match queue for 4 player")
-            val match = Match(user, MatchType.FourPlayer)
-            objectOutput.writeObject(Request(match))
-        } else if (matching == "/exit") {
-            println("Exiting...")
-            break
+        when (matching) {
+            "/roll 1" -> {
+                println("Rolling dice...")
+                objectOutput.writeObject(Request(RollDiceRequest(1)))
+            }
+            "/match 1" -> {
+                println("Entering match queue for 2 player")
+                val match = Match(user, MatchType.TwoPlayer)
+                objectOutput.writeObject(Request(match))
+            }
+            "/match 2" -> {
+                println("Entering match queue for 4 player")
+                val match = Match(user, MatchType.FourPlayer)
+                objectOutput.writeObject(Request(match))
+            }
+            "/exit" -> {
+                println("Exiting...")
+                break
+            }
+            else -> {
+                println("Invalid command")
+            }
         }
     }
 
@@ -93,6 +106,8 @@ private fun handleReadMessage(coroutineScope: CoroutineScope, objectInput: Objec
                 println("message: ${response.message}")
                 if (data is UserResponse) {
                     println("username: ${data.username}")
+                } else if (data is BoardResponse) {
+                    handleMatchFlow(objectInput, data)
                 }
 
                 println("= = = = = =")
@@ -105,6 +120,12 @@ private fun handleReadMessage(coroutineScope: CoroutineScope, objectInput: Objec
             }
         }
     }
+}
+
+private fun handleMatchFlow(objectInput: ObjectInputStream, boardResponse: BoardResponse) {
+    println("= = = = You are now in a match with ${boardResponse.players.map { it.first }} = = = =")
+
+
 }
 
 
