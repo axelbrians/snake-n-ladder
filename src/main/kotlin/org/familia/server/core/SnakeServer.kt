@@ -4,7 +4,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.familia.client.common.request.match.MatchType
+import org.familia.client.common.response.Response
 import org.familia.client.common.response.board.BoardResponse
+import org.familia.client.common.status.Status
 import org.familia.server.contract.ClientConnectionContract
 import org.familia.server.contract.MatchQueueContract
 import org.familia.server.getSocketKey
@@ -81,43 +84,51 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
         return false
     }
 
-    override fun onMatchRequested(username: String, room: Int) {
-        if(room == 1) {
+    override fun onMatchRequested(username: String, matchType: MatchType) {
+        if (matchType == MatchType.TwoPlayer) {
             room2Queue.add(username)
-            println("User enter 2 player room, total user: " + room2Queue.size)
-            if(room2Queue.size >= 2) {
-                var tempRoom2Queue: MutableList<String> = mutableListOf()
-                tempRoom2Queue.add(room2Queue[0])
-                tempRoom2Queue.add(room2Queue[1])
-                clients.forEach{(_, client) ->
-                    if(room2Queue[0] == client.username || room2Queue[1] == client.username) {
-                        client.sendBoard(BoardResponse(tempRoom2Queue))
+            println("User $username enter 2 player match, total user: " + room2Queue.size)
+            if (room2Queue.size >= 2) {
+                val tempRoom2Queue = mutableListOf<String>()
+                for (index in 0 until 2) {
+                    tempRoom2Queue.add(room2Queue[index])
+                }
+                clients.forEach{ (_, client) ->
+                    if (room2Queue[0] == client.username || room2Queue[1] == client.username) {
+                        client.sendBoard(
+                            Status.Success,
+                            BoardResponse(tempRoom2Queue)
+                        )
                     }
                 }
-                room2Queue.removeFirst()
-                room2Queue.removeFirst()
-                println("Matched")
+                logger.logMatchedPlayer(tempRoom2Queue)
+                repeat(2) {
+                    room2Queue.removeFirst()
+                }
             }
-
-        }
-        else if(room == 2) {
+        } else if (matchType == MatchType.FourPlayer) {
             room4Queue.add(username)
-            if(room4Queue.size >= 4) {
-                var tempRoom4Queue: MutableList<String> = mutableListOf()
-                tempRoom4Queue.add(room4Queue[0])
-                tempRoom4Queue.add(room4Queue[1])
-                tempRoom4Queue.add(room4Queue[2])
-                tempRoom4Queue.add(room4Queue[3])
-                clients.forEach{(_, client) ->
-                    if(room4Queue[0] == client.username || room4Queue[1] == client.username
-                        || room4Queue[2] == client.username || room4Queue[3] == client.username) {
-                        client.sendBoard(BoardResponse(tempRoom4Queue))
+            if (room4Queue.size >= 4) {
+                val tempRoom4Queue = mutableListOf<String>()
+                for (index in 0 until 4) {
+                    tempRoom4Queue.add(room4Queue[index])
+                }
+                clients.forEach{ (_, client) ->
+                    if (room4Queue[0] == client.username ||
+                        room4Queue[1] == client.username ||
+                        room4Queue[2] == client.username ||
+                        room4Queue[3] == client.username
+                    ) {
+                        client.sendBoard(
+                            Status.Success,
+                            BoardResponse(tempRoom4Queue)
+                        )
                     }
                 }
-                room4Queue.removeFirst()
-                room4Queue.removeFirst()
-                room4Queue.removeFirst()
-                room4Queue.removeFirst()
+                logger.logMatchedPlayer(tempRoom4Queue)
+                repeat(4) {
+                    room4Queue.removeFirst()
+                }
             }
         }
     }

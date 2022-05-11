@@ -11,16 +11,18 @@ class LoggerHelper {
 
     fun waitingClient() {
         println("= = = Waiting for client to connect = = =")
-//        logger.log(Level.INFO, "= = = Waiting for client to connect = = =")
     }
 
     fun clientConnected(socket: Socket) {
         println("= = = ${socket.getSocketKey()} Connected = = =")
-//        logger.log(Level.INFO, "= = = ${socket.getSocketKey()} Connected = = =")
     }
 
     fun clientDisconnected(key: String, username: String) {
         println("= = = $key as ($username) Disconnected = = =")
+    }
+
+    fun logMatchedPlayer(players: List<String>) {
+        println("${players.joinToString(separator = ", ")} matched in a match")
     }
 
     fun logException(e: Exception) {

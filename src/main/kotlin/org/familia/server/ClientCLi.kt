@@ -3,6 +3,7 @@ package org.familia.server
 import kotlinx.coroutines.*
 import org.familia.client.common.request.Request
 import org.familia.client.common.request.match.Match
+import org.familia.client.common.request.match.MatchType
 import org.familia.client.common.request.user.User
 import org.familia.client.common.response.Response
 import org.familia.client.common.response.user.UserResponse
@@ -57,15 +58,18 @@ fun main() {
     val readJob = handleReadMessage(coroutineScope, objectInput)
 
     while (true) {
-        var matching = readln()
-        if(matching == "/match 1") {
-            println("Match 2 player")
-            val match = Match(user, 1)
+        val matching = readln()
+        if (matching == "/match 1") {
+            println("Entering match queue for 2 player")
+            val match = Match(user, MatchType.TwoPlayer)
             objectOutput.writeObject(Request(match))
-        }
-        else if(matching == "/match 2") {
-            val match = Match(user, 2)
+        } else if (matching == "/match 2") {
+            println("Entering match queue for 4 player")
+            val match = Match(user, MatchType.FourPlayer)
             objectOutput.writeObject(Request(match))
+        } else if (matching == "/exit") {
+            println("Exiting...")
+            break
         }
     }
 
@@ -95,6 +99,8 @@ private fun handleReadMessage(coroutineScope: CoroutineScope, objectInput: Objec
             } catch (e: Exception) {
                 crashCounter++
                 println("= = = Something went wrong, message not received = = =")
+                println("cause: $e")
+                println("error message: ${e.message}")
                 delay(1000)
             }
         }

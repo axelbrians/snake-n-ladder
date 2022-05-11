@@ -9,9 +9,9 @@ public class Match  implements Serializable {
     @NotNull
     public User user;
     @NotNull
-    public Integer type;
+    public MatchType type;
 
-    public Match(@NotNull User user, @NotNull Integer type) {
+    public Match(@NotNull User user, @NotNull MatchType type) {
         this.user = user;
         this.type = type;
     }

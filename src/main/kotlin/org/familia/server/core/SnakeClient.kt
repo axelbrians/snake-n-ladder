@@ -32,18 +32,13 @@ class SnakeClient(
     fun serve() = try {
         connect()
         while (true) {
-            println("masuk loop")
             if (!isConnected) {
                 break
             }
             val request = inputStream.readObject() as Request
-            println(request)
             if(request.payload is Match) {
-                println("Test")
                 requestMatch(request.payload as Match)
             }
-            //requestMatch()
-
         }
 
     } catch (e: SocketException) {
@@ -82,13 +77,22 @@ class SnakeClient(
     }
 
     private fun requestMatch(request: Match) {
-
         matchQueueContract.onMatchRequested(request.user.username, request.type)
     }
 
-    fun sendBoard(board: BoardResponse) {
+    fun sendBoard(status: Status, board: BoardResponse) {
+        val message = if (status == Status.Success) {
+            "Your board is ready to play"
+        } else {
+            "Something went wrong"
+        }
+
         with(outputStream) {
-            writeObject(board)
+            writeObject(Response(
+                message,
+                status,
+                board
+            ))
             flush()
         }
     }
