@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new InGameLayout("Snake And Ladder", WIDTH, HEIGHT);
+            new InGameLayout("Snake And Ladder");
         });
     }
 }

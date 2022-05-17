@@ -1,5 +1,6 @@
 package org.familia.client.views.layouts;
 
+import org.familia.client.Main;
 import org.familia.client.views.GameBoard;
 import org.familia.client.views.backgrounds.InGameBackground;
 
@@ -17,12 +18,10 @@ public class InGameLayout extends JFrame {
      * Construct Frame
      *
      * @param title
-     * @param width
-     * @param height
      */
-    public InGameLayout(String title, int width, int height) {
-        this.width = width;
-        this.height = height;
+    public InGameLayout(String title) {
+        this.width = Main.WIDTH;
+        this.height = Main.HEIGHT;
 
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,14 +54,11 @@ public class InGameLayout extends JFrame {
     }
 
     /**
-     * Set all panels position and z-index in the frame.
+     * Set all panels in the frame.
      */
     private void setPanels() {
         JPanel mainPanel = new InGameBackground(width, height);
-        mainPanel.setBounds(0, 0, width, height);
-
-        JPanel board = new GameBoard();
-        board.setBounds(30, 52, 617, 617);
+        JLayeredPane board = new GameBoard();
 
         lpane.add(mainPanel, 0, 0);
         lpane.add(board, 1, 1);
