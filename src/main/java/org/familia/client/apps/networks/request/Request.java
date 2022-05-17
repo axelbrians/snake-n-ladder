@@ -1,4 +1,4 @@
-package org.familia.client.common.request;
+package org.familia.client.apps.networks.request;
 
 import org.jetbrains.annotations.NotNull;
 

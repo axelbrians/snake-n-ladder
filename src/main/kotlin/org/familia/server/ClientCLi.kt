@@ -1,16 +1,15 @@
 package org.familia.server
 
 import kotlinx.coroutines.*
-import org.familia.client.common.request.Request
-import org.familia.client.common.request.board.RollDiceRequest
-import org.familia.client.common.request.match.Match
-import org.familia.client.common.request.match.MatchType
-import org.familia.client.common.request.user.User
-import org.familia.client.common.response.Response
-import org.familia.client.common.response.board.BoardResponse
-import org.familia.client.common.response.user.UserResponse
-import org.familia.client.common.status.Status
-import java.io.InputStream
+import org.familia.client.apps.networks.request.Request
+import org.familia.client.apps.networks.request.board.RollDiceRequest
+import org.familia.client.apps.networks.request.match.Match
+import org.familia.client.apps.networks.request.match.MatchType
+import org.familia.client.apps.networks.request.user.User
+import org.familia.client.apps.networks.response.Response
+import org.familia.client.apps.networks.response.board.BoardResponse
+import org.familia.client.apps.networks.response.user.UserResponse
+import org.familia.client.apps.networks.status.Status
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.Socket
@@ -64,16 +63,26 @@ fun main() {
         when (matching) {
             "/roll 1" -> {
                 println("Rolling dice...")
-                objectOutput.writeObject(Request(RollDiceRequest(1)))
+                objectOutput.writeObject(
+                    Request(
+                        RollDiceRequest(1)
+                    )
+                )
             }
             "/match 1" -> {
                 println("Entering match queue for 2 player")
-                val match = Match(user, MatchType.TwoPlayer)
+                val match = Match(
+                    user,
+                    MatchType.TwoPlayer
+                )
                 objectOutput.writeObject(Request(match))
             }
             "/match 2" -> {
                 println("Entering match queue for 4 player")
-                val match = Match(user, MatchType.FourPlayer)
+                val match = Match(
+                    user,
+                    MatchType.FourPlayer
+                )
                 objectOutput.writeObject(Request(match))
             }
             "/exit" -> {

@@ -1,6 +1,4 @@
-package org.familia.client.common.response.user;
-
-import org.familia.client.common.status.Status;
+package org.familia.client.apps.networks.response.user;
 
 import java.io.Serializable;
 

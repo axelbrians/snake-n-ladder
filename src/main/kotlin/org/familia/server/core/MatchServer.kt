@@ -1,7 +1,7 @@
 package org.familia.server.core
 
-import org.familia.client.common.response.board.BoardResponse
-import org.familia.client.common.response.board.PlayerTurnResponse
+import org.familia.client.apps.networks.response.board.BoardResponse
+import org.familia.client.apps.networks.response.board.PlayerTurnResponse
 
 class MatchServer(
     private val boardResponse: BoardResponse,
@@ -14,7 +14,11 @@ class MatchServer(
         while (true) {
             playerTurn.forEach { username ->
                 clients.find { it.username == username }?.let {
-                    it.sendTurnResponse(PlayerTurnResponse(username))
+                    it.sendTurnResponse(
+                        PlayerTurnResponse(
+                            username
+                        )
+                    )
 
                     val request = it.awaitRollRequest() // waiting for asked player to roll the dice
 

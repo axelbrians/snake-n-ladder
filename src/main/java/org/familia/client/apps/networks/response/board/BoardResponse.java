@@ -1,4 +1,4 @@
-package org.familia.client.common.response.board;
+package org.familia.client.apps.networks.response.board;
 
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;

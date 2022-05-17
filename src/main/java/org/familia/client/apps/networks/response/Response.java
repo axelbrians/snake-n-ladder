@@ -1,6 +1,6 @@
-package org.familia.client.common.response;
+package org.familia.client.apps.networks.response;
 
-import org.familia.client.common.status.Status;
+import org.familia.client.apps.networks.status.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

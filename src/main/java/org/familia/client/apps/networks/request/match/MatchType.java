@@ -1,4 +1,4 @@
-package org.familia.client.common.request.match;
+package org.familia.client.apps.networks.request.match;
 
 public enum MatchType {
     TwoPlayer,

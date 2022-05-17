@@ -1,4 +1,4 @@
-package org.familia.client.common.request.board;
+package org.familia.client.apps.networks.request.board;
 
 import java.io.Serializable;
 

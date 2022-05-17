@@ -1,14 +1,14 @@
 package org.familia.server.core
 
-import org.familia.client.common.request.Request
-import org.familia.client.common.request.board.RollDiceRequest
-import org.familia.client.common.request.match.Match
-import org.familia.client.common.request.user.User
-import org.familia.client.common.response.Response
-import org.familia.client.common.response.board.BoardResponse
-import org.familia.client.common.response.board.PlayerTurnResponse
-import org.familia.client.common.response.user.UserResponse
-import org.familia.client.common.status.Status
+import org.familia.client.apps.networks.request.Request
+import org.familia.client.apps.networks.request.board.RollDiceRequest
+import org.familia.client.apps.networks.request.match.Match
+import org.familia.client.apps.networks.request.user.User
+import org.familia.client.apps.networks.response.Response
+import org.familia.client.apps.networks.response.board.BoardResponse
+import org.familia.client.apps.networks.response.board.PlayerTurnResponse
+import org.familia.client.apps.networks.response.user.UserResponse
+import org.familia.client.apps.networks.status.Status
 import org.familia.server.contract.ClientConnectionContract
 import org.familia.server.contract.MatchQueueContract
 import org.familia.server.getSocketKey
@@ -93,21 +93,25 @@ class SnakeClient(
         }
 
         with(outputStream) {
-            writeObject(Response(
-                message,
-                status,
-                board
-            ))
+            writeObject(
+                Response(
+                    message,
+                    status,
+                    board
+                )
+            )
             flush()
         }
     }
 
     fun sendTurnResponse(response: PlayerTurnResponse) {
-        outputStream.writeObject(Response(
-            "Your turn to ngocok",
-            Status.Success,
-            response
-        ))
+        outputStream.writeObject(
+            Response(
+                "Your turn to ngocok",
+                Status.Success,
+                response
+            )
+        )
     }
 
     fun awaitRollRequest(): RollDiceRequest {

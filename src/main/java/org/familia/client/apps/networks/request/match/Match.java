@@ -1,6 +1,6 @@
-package org.familia.client.common.request.match;
+package org.familia.client.apps.networks.request.match;
 
-import org.familia.client.common.request.user.User;
+import org.familia.client.apps.networks.request.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;

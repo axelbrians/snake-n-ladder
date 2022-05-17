@@ -4,9 +4,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.familia.client.common.request.match.MatchType
-import org.familia.client.common.response.board.BoardResponse
-import org.familia.client.common.status.Status
+import org.familia.client.apps.networks.request.match.MatchType
+import org.familia.client.apps.networks.response.board.BoardResponse
+import org.familia.client.apps.networks.status.Status
 import org.familia.server.contract.ClientConnectionContract
 import org.familia.server.contract.MatchQueueContract
 import org.familia.server.getSocketKey
@@ -112,7 +112,8 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
             tempRoomQueue.add(twoPlayerMatchQueue[it].username)
         }
 
-        val boardResponse = BoardResponse(tempRoomQueue.shuffled().map { Pair(it, 0) })
+        val boardResponse = BoardResponse(
+            tempRoomQueue.shuffled().map { Pair(it, 0) })
         val playingClients = mutableListOf<SnakeClient>()
 
         logger.logMatchedPlayer(tempRoomQueue)

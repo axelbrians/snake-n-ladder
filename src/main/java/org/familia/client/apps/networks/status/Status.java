@@ -1,4 +1,4 @@
-package org.familia.client.common.status;
+package org.familia.client.apps.networks.status;
 
 import java.io.Serializable;
 
