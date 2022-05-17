@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class InGame extends JPanel {
 
-    private BufferedImage background;
+    private Image background;
     private final int areaWidth;
     private final int areaHeight;
 
@@ -19,7 +19,8 @@ public class InGame extends JPanel {
         this.setPreferredSize(new Dimension(areaWidth, areaHeight));
         setLayout(null);
         try {
-            background = Asset.getImage("GrassBg.jpg");
+            background = Asset.getImage("GrassBg.jpg")
+                    .getScaledInstance(areaWidth, areaHeight, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println(e);
         }
