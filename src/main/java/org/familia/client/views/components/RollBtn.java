@@ -1,4 +1,4 @@
-package org.familia.client.views;
+package org.familia.client.views.components;
 
 import org.familia.client.helpers.Asset;
 
@@ -6,16 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class GameBoard extends JLayeredPane {
-    private Image background;
-    private final int size = 617;
+public class RollBtn extends JButton {
+    private Image rollBtn;
 
-    public GameBoard() {
-        setBounds(30, 52, size, size);
-        setPreferredSize(new Dimension(size, size));
+    public RollBtn(int x, int y, int size) {
+        setBounds(x, y, size, size);
+        setContentAreaFilled(false);
+        setBorderPainted(false);
 
         try {
-            background = Asset.getImage("GameBoard.png")
+            rollBtn = Asset.getImage("RollBtn.png")
                     .getScaledInstance(size, size, Image.SCALE_DEFAULT);
         } catch(IOException e) {
             System.out.println(e);
@@ -25,6 +25,6 @@ public class GameBoard extends JLayeredPane {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background, 0, 0, null);
+        g.drawImage(rollBtn, 0, 0, null);
     }
 }
