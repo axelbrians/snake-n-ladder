@@ -9,15 +9,10 @@ import java.io.IOException;
 public class Background extends JPanel {
     private Image background;
 
-    public Background(int width, int height, String imageName) {
+    public Background(int width, int height, String imageName) throws IOException {
         setBounds(0, 0, width, height);
 
-        try {
-            background = Asset.getImage(imageName)
-                    .getScaledInstance(width, height, Image.SCALE_DEFAULT);
-        } catch(IOException e) {
-            System.out.println(e);
-        }
+        background = Asset.getImage(imageName, width, height);
     }
 
     @Override

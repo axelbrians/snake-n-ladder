@@ -7,12 +7,13 @@ import org.familia.client.views.components.Background;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Adjust frame size and contents.
  */
 public class InGameLayout extends JLayeredPane {
-    public InGameLayout() {
+    public InGameLayout() throws IOException {
         setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
         JPanel background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");

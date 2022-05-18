@@ -10,16 +10,11 @@ public class GameBoard extends JLayeredPane {
     private Image background;
     private final int size = 617;
 
-    public GameBoard() {
+    public GameBoard() throws IOException {
         setBounds(30, 52, size, size);
         setPreferredSize(new Dimension(size, size));
 
-        try {
-            background = Asset.getImage("GameBoard.png")
-                    .getScaledInstance(size, size, Image.SCALE_DEFAULT);
-        } catch(IOException e) {
-            System.out.println(e);
-        }
+        background = Asset.getImage("GameBoard.png", size, size);
     }
 
     @Override

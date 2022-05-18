@@ -9,17 +9,12 @@ import java.io.IOException;
 public class RollBtn extends JButton {
     private Image rollBtn;
 
-    public RollBtn(int x, int y, int size) {
+    public RollBtn(int x, int y, int size) throws IOException {
         setBounds(x, y, size, size);
         setContentAreaFilled(false);
         setBorderPainted(false);
 
-        try {
-            rollBtn = Asset.getImage("RollBtn.png")
-                    .getScaledInstance(size, size, Image.SCALE_DEFAULT);
-        } catch(IOException e) {
-            System.out.println(e);
-        }
+        rollBtn = Asset.getImage("RollBtn.png", size, size);
     }
 
     @Override

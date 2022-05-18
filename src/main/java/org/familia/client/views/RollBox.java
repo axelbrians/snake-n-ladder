@@ -14,16 +14,11 @@ public class RollBox extends JLayeredPane {
     public final int width = 277;
     public final int height = 230;
 
-    public RollBox() {
+    public RollBox() throws IOException {
         setBounds(664, 218, width, height);
         setPreferredSize(new Dimension(width, height));
 
-        try {
-            background = Asset.getImage("RollBox.png")
-                    .getScaledInstance(width, height, Image.SCALE_DEFAULT);
-        } catch(IOException e) {
-            System.out.println(e);
-        }
+        background = Asset.getImage("RollBox.png", width, height);
 
         add(new RollBtn(94, 123, 86));
         add(new RollSlider(132, 38, 6, 59));
