@@ -1,6 +1,6 @@
 package org.familia.client.views;
 
-import org.familia.client.helpers.Asset;
+import org.familia.client.views.components.Background;
 import org.familia.client.views.components.RollBtn;
 import org.familia.client.views.components.RollSlider;
 
@@ -9,21 +9,16 @@ import java.awt.*;
 import java.io.IOException;
 
 public class RollBox extends JLayeredPane {
-    private final Image background;
+    private final Background background;
 
     public RollBox(int x, int y, int width, int height) throws IOException {
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
 
-        background = Asset.getImage("RollBox.png", width, height);
+        background = new Background(width, height, "RollBox.png");
+        add(background, 0, 0);
 
-        add(new RollBtn(94, 123, 86));
-        add(new RollSlider(132, 38, 6, 59));
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background, 0, 0, null);
+        add(new RollBtn(94, 123, 86), 1, 1);
+        add(new RollSlider(132, 38, 6, 59), 1, 1);
     }
 }

@@ -1,13 +1,13 @@
 package org.familia.client.views;
 
-import org.familia.client.helpers.Asset;
+import org.familia.client.views.components.Background;
 import org.familia.client.views.components.PlayerIcon;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PlayerBox extends JLayeredPane {
-    private final Image background;
+    private final Background background;
     private final String[] iconPath = {
             "players/Blue.png",
             "players/Green.png",
@@ -31,7 +31,8 @@ public class PlayerBox extends JLayeredPane {
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
 
-        background = Asset.getImage("PlayerBox.png", width, height);
+        background = new Background(width, height, "PlayerBox.png");
+        add(background);
 
         // Init player icons
         int xPos = 19;
@@ -51,11 +52,5 @@ public class PlayerBox extends JLayeredPane {
         if (currPlayerIdx >= playerCount) {
             currPlayerIdx = 0;
         }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background, 0, 0, null);
     }
 }

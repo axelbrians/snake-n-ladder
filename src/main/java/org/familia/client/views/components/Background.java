@@ -10,13 +10,12 @@ public class Background extends JPanel {
     private final Image background;
 
     public Background(int width, int height, String imageName) throws IOException {
-        setBounds(0, 0, width, height);
-
-        background = Asset.getImage(imageName, width, height);
+        this(0, 0, width, height, imageName);
     }
 
     public Background(int x, int y, int width, int height, String imageName) throws IOException {
         setBounds(x, y, width, height);
+        setOpaque(false);
 
         background = Asset.getImage(imageName, width, height);
     }
