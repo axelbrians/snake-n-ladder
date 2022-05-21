@@ -10,11 +10,13 @@ import java.util.HashMap;
 
 public class PlayerIcon extends JPanel {
     private final Image icon;
+    private final Image iconBordered;
     private String playerName;
     private final int iconWidth = 27;
     private final int iconHeight = 41;
     private final int textAreaWidth = 49;
     private final int textAreaHeight = 18;
+    private boolean isActive;
 
     public PlayerIcon(int x, int y, String iconPath, String playerName) throws IOException {
         setOpaque(false);
@@ -22,8 +24,10 @@ public class PlayerIcon extends JPanel {
         setPreferredSize(new Dimension(textAreaWidth, iconHeight + textAreaHeight));
 
         this.playerName = playerName;
+        isActive = false;
 
-        icon = Asset.getImage(iconPath, iconWidth, iconHeight);
+        icon = Asset.getImage(iconPath + ".png", iconWidth, iconHeight);
+        iconBordered = Asset.getImage(iconPath + "White.png", iconWidth, iconHeight);
     }
 
     @Override
@@ -32,7 +36,7 @@ public class PlayerIcon extends JPanel {
         writePlayerName(g);
 
         int x = (textAreaWidth - iconWidth)/2;
-        g.drawImage(icon, x, 0, null);
+        g.drawImage((isActive) ? iconBordered : icon, x, 0, null);
     }
 
     private void writePlayerName(Graphics g) {
@@ -49,5 +53,13 @@ public class PlayerIcon extends JPanel {
         int x = (textAreaWidth - stringWidth)/2;
         int y = iconHeight + font.getHeight();
         g2d.drawString(playerName, x, y);
+    }
+
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

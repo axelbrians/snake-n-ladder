@@ -8,11 +8,18 @@ import java.awt.*;
 
 public class PlayerBox extends JLayeredPane {
     private final Background background;
+
+    /**
+     * Player icon path.
+     * Naming format:
+     *  <color>.png = base image
+     *  <color>White.png = image for active player
+     */
     private final String[] iconPath = {
-            "players/Blue.png",
-            "players/Green.png",
-            "players/Pink.png",
-            "players/Yellow.png",
+            "players/Blue",
+            "players/Green",
+            "players/Pink",
+            "players/Yellow",
     };
     private final String[] players; // Contain player name sorted by turn order.
     private final int playerCount;
@@ -42,15 +49,18 @@ public class PlayerBox extends JLayeredPane {
             add(playerIcons[i], 1, 1);
             xPos += 66;
         }
+        playerIcons[currPlayerIdx].setIsActive(true);
     }
 
     /**
      * Set current player equal to next player.
      */
     public void next() {
+        playerIcons[currPlayerIdx].setIsActive(false);
         currPlayerIdx++;
         if (currPlayerIdx >= playerCount) {
             currPlayerIdx = 0;
         }
+        playerIcons[currPlayerIdx].setIsActive(true);
     }
 }
