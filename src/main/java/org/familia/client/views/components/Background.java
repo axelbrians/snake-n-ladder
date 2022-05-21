@@ -7,10 +7,16 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Background extends JPanel {
-    private Image background;
+    private final Image background;
 
     public Background(int width, int height, String imageName) throws IOException {
         setBounds(0, 0, width, height);
+
+        background = Asset.getImage(imageName, width, height);
+    }
+
+    public Background(int x, int y, int width, int height, String imageName) throws IOException {
+        setBounds(x, y, width, height);
 
         background = Asset.getImage(imageName, width, height);
     }

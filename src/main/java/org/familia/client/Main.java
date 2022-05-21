@@ -17,7 +17,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             try {
                 new InGameFrame("Snake And Ladder", new InGameLayout());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

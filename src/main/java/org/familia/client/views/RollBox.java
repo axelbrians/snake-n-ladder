@@ -9,13 +9,10 @@ import java.awt.*;
 import java.io.IOException;
 
 public class RollBox extends JLayeredPane {
-    private Image background;
+    private final Image background;
 
-    public final int width = 277;
-    public final int height = 230;
-
-    public RollBox() throws IOException {
-        setBounds(664, 218, width, height);
+    public RollBox(int x, int y, int width, int height) throws IOException {
+        setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
 
         background = Asset.getImage("RollBox.png", width, height);

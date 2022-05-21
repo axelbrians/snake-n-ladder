@@ -7,11 +7,10 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GameBoard extends JLayeredPane {
-    private Image background;
-    private final int size = 617;
+    private final Image background;
 
-    public GameBoard() throws IOException {
-        setBounds(30, 52, size, size);
+    public GameBoard(int x, int y, int size) throws IOException {
+        setBounds(x, y, size, size);
         setPreferredSize(new Dimension(size, size));
 
         background = Asset.getImage("GameBoard.png", size, size);
