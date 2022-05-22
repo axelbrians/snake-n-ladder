@@ -16,7 +16,7 @@ public class InGameLayout extends JLayeredPane {
     public InGameLayout() throws Exception {
         setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
-        String[] players = { "Player1", "Player2", "Player3", "Player4" };
+        String[] players = { "Player1", "Player2" };
 
         JPanel background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
         JLayeredPane board = new GameBoard(30, 52, 617);

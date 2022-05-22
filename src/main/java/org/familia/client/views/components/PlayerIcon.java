@@ -11,7 +11,8 @@ import java.util.HashMap;
 public class PlayerIcon extends JPanel {
     private final Image icon;
     private final Image iconBordered;
-    private String playerName;
+    private final String playerName;
+    private final String printedName;
     private final int iconWidth = 27;
     private final int iconHeight = 41;
     private final int textAreaWidth = 49;
@@ -24,6 +25,9 @@ public class PlayerIcon extends JPanel {
         setPreferredSize(new Dimension(textAreaWidth, iconHeight + textAreaHeight));
 
         this.playerName = playerName;
+        printedName = (playerName.length() > 7)
+                ? playerName.substring(0,5) + "..."
+                : playerName;
         isActive = false;
 
         icon = Asset.getImage(iconPath + ".png", iconWidth, iconHeight);
@@ -49,10 +53,10 @@ public class PlayerIcon extends JPanel {
         g2d.setFont((new Font("Source Serif Pro", Font.BOLD, 12)).deriveFont(attributes));
         FontMetrics font = g2d.getFontMetrics();
 
-        int stringWidth = font.stringWidth(playerName);
+        int stringWidth = font.stringWidth(printedName);
         int x = (textAreaWidth - stringWidth)/2;
         int y = iconHeight + font.getHeight();
-        g2d.drawString(playerName, x, y);
+        g2d.drawString(printedName, x, y);
     }
 
     public boolean getIsActive() {

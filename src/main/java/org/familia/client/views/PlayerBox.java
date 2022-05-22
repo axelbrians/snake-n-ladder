@@ -9,6 +9,9 @@ import java.awt.*;
 public class PlayerBox extends JLayeredPane {
     private final Background background;
 
+    private int xPos; // Current layer icon coordinate in x axis.
+    private final int xAdder; // Player icon gap in x axis.
+
     /**
      * Player icon path.
      * Naming format:
@@ -34,6 +37,8 @@ public class PlayerBox extends JLayeredPane {
         }
         this.players = players;
         this.playerCount = playerCount;
+        xPos = (playerCount == 4) ? 19 : 74;
+        xAdder = (playerCount == 4) ? 66 : 86;
 
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
@@ -42,12 +47,11 @@ public class PlayerBox extends JLayeredPane {
         add(background);
 
         // Init player icons
-        int xPos = 19;
         playerIcons = new PlayerIcon[playerCount];
         for (int i = 0; i < playerCount; i++) {
             playerIcons[i] = new PlayerIcon(xPos, 49, iconPath[i], players[i]);
             add(playerIcons[i], 1, 1);
-            xPos += 66;
+            xPos += xAdder;
         }
         playerIcons[currPlayerIdx].setIsActive(true);
     }
