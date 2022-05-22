@@ -1,5 +1,7 @@
 package org.familia.client.views.frames;
 
+import org.familia.client.views.ChatBox;
+
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

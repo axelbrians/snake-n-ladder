@@ -1,6 +1,7 @@
 package org.familia.client.views.layouts;
 
 import org.familia.client.Main;
+import org.familia.client.views.ChatBox;
 import org.familia.client.views.GameBoard;
 import org.familia.client.views.PlayerBox;
 import org.familia.client.views.RollBox;
@@ -22,10 +23,12 @@ public class InGameLayout extends JLayeredPane {
         JLayeredPane board = new GameBoard(30, 52, 617);
         JLayeredPane playerBox = new PlayerBox(664, 52, 277, 131, players);
         JLayeredPane rollBox = new RollBox(664, 218, 277, 230);
+        JPanel chatBox = new ChatBox(664, 479, 277, 190);
 
         add(background, 0, 0);
         add(board, 1, 1);
         add(rollBox, 1, 1);
         add(playerBox, 1, 1);
+        add(chatBox, 1, 1);
     }
 }
