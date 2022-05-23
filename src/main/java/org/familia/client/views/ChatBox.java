@@ -1,22 +1,26 @@
 package org.familia.client.views;
 
+import org.familia.client.views.components.ChatSendButton;
 import org.familia.client.views.components.ChatTextField;
+import org.familia.client.views.components.RoundedBorder;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
-public class ChatBox extends JPanel implements ActionListener {
+public class ChatBox extends JPanel {
     private final int width;
     private final int height;
     private final int arc = 15;
 
-    protected JTextField textField;
-    protected JTextArea textArea;
     private final static String newline = "\n";
+    protected ChatTextField textField;
+    protected ChatSendButton sendButton;
+    protected JTextArea textArea;
 
-    public ChatBox(int x, int y, int width, int height) {
+    public ChatBox(int x, int y, int width, int height) throws IOException {
         this.width = width;
         this.height = height;
 
@@ -26,41 +30,10 @@ public class ChatBox extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(width, height));
 
         textField = new ChatTextField(11, 152, 221, 30);
+        sendButton = new ChatSendButton(237, 149, 34);
+
         add(textField);
-    }
-
-//    public ChatBox() {
-//        setOpaque(false);
-//        setBounds(5, 5, 50, 50);
-//
-//        textField = new JTextField(20);
-//        textField.addActionListener(this);
-//
-//        textArea = new JTextArea(5, 20);
-//        textArea.setEditable(false);
-//        JScrollPane scrollPane = new JScrollPane(textArea);
-//
-//        //Add Components to this panel.
-//        GridBagConstraints c = new GridBagConstraints();
-//        c.gridwidth = GridBagConstraints.REMAINDER;
-//
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        add(textField, c);
-//
-//        c.fill = GridBagConstraints.BOTH;
-//        c.weightx = 1.0;
-//        c.weighty = 1.0;
-//        add(scrollPane, c);
-//    }
-
-    public void actionPerformed(ActionEvent e) {
-        String text = textField.getText();
-        textArea.append(text + newline);
-        textField.selectAll();
-
-        //Make sure the new text is visible, even if there
-        //was a selection in the text area.
-        textArea.setCaretPosition(textArea.getDocument().getLength());
+        add(sendButton);
     }
 
     @Override
