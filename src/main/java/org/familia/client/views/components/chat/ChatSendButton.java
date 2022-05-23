@@ -1,6 +1,7 @@
-package org.familia.client.views.components;
+package org.familia.client.views.components.chat;
 
 import org.familia.client.helpers.Asset;
+import org.familia.client.views.components.RoundedBorder;
 
 import javax.swing.*;
 import java.awt.*;

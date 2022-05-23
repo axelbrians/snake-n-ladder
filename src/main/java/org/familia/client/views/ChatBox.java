@@ -1,13 +1,14 @@
 package org.familia.client.views;
 
-import org.familia.client.views.components.ChatSendButton;
-import org.familia.client.views.components.ChatTextField;
-import org.familia.client.views.components.RoundedBorder;
+import org.familia.client.views.components.chat.ChatSendButton;
+import org.familia.client.views.components.chat.ChatTextField;
+import org.familia.client.views.components.chat.ChatTextPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class ChatBox extends JPanel {
@@ -18,9 +19,11 @@ public class ChatBox extends JPanel {
     private final static String newline = "\n";
     protected ChatTextField textField;
     protected ChatSendButton sendButton;
-    protected JTextArea textArea;
+    protected ChatTextPane textPane;
 
     public ChatBox(int x, int y, int width, int height) throws IOException {
+        super();
+
         this.width = width;
         this.height = height;
 
@@ -31,9 +34,26 @@ public class ChatBox extends JPanel {
 
         textField = new ChatTextField(11, 152, 221, 30);
         sendButton = new ChatSendButton(237, 149, 34);
+        textPane = new ChatTextPane(11, 18, 258, 117);
+
+        setActionListener();
+        textField.addKeyListener(new ChatTextFieldAdapter());
 
         add(textField);
         add(sendButton);
+        add(textPane);
+    }
+
+    private void sendText() {
+        String text = textField.getText();
+        textPane.textArea.append(text + newline);
+        textPane.textArea.setCaretPosition(textPane.textArea.getDocument().getLength());
+        textField.setText("");
+        textPane.repaint();
+    }
+
+    private void setActionListener() {
+        sendButton.addActionListener((ActionEvent e) -> sendText());
     }
 
     @Override
@@ -44,5 +64,21 @@ public class ChatBox extends JPanel {
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
         g2d.setColor(Color.BLACK);
         g2d.fillRoundRect(0, 0, width - 1, height - 1, arc, arc);
+    }
+
+    /**
+     * Keymap for textfield.
+     */
+    class ChatTextFieldAdapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent ke) {
+            int keyCode = ke.getKeyCode();
+
+            switch (keyCode) {
+                case KeyEvent.VK_ENTER:
+                    sendText();
+                    break;
+            }
+        }
     }
 }

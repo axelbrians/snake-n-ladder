@@ -1,4 +1,4 @@
-package org.familia.client.views.components;
+package org.familia.client.views.components.chat;
 
 import javax.swing.*;
 import java.awt.*;
