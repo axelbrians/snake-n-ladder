@@ -9,7 +9,7 @@ import java.awt.event.*;
 /**
  * Construct frame and link it with its layout file.
  */
-public class InGameFrame extends JFrame {
+public class MainFrame extends JFrame {
     private Timer timer;
 
 
@@ -17,7 +17,7 @@ public class InGameFrame extends JFrame {
      * @param title for the name of Frame
      * @param layout for layout that will be used
      */
-    public InGameFrame(String title, GameLayout layout) {
+    public MainFrame(String title, GameLayout layout) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);

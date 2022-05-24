@@ -1,6 +1,6 @@
 package org.familia.client;
 
-import org.familia.client.views.frames.InGameFrame;
+import org.familia.client.views.frames.MainFrame;
 import org.familia.client.views.layouts.implementations.InGameLayout;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                new InGameFrame("Snake And Ladder", new InGameLayout());
+                new MainFrame("Snake And Ladder", new InGameLayout());
             } catch (Exception e) {
                 e.printStackTrace();
             }
