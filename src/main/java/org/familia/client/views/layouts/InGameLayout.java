@@ -6,6 +6,10 @@ import org.familia.client.views.GameBoard;
 import org.familia.client.views.PlayerBox;
 import org.familia.client.views.RollBox;
 import org.familia.client.views.components.Background;
+import org.familia.client.views.components.overlay.DiceOverlay;
+import org.familia.client.views.components.overlay.LoadingOverlay;
+import org.familia.client.views.components.overlay.NetworkErrorOverlay;
+import org.familia.client.views.components.overlay.Overlay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,10 +29,14 @@ public class InGameLayout extends JLayeredPane {
         JLayeredPane rollBox = new RollBox(664, 218, 277, 230);
         JPanel chatBox = new ChatBox(664, 479, 277, 190);
 
+        Overlay overlay = new DiceOverlay(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+
         add(background, 0, 0);
         add(board, 1, 1);
         add(rollBox, 1, 1);
         add(playerBox, 1, 1);
         add(chatBox, 1, 1);
+
+        add(overlay, 2, 2);
     }
 }

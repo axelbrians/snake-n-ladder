@@ -1,6 +1,5 @@
 package org.familia.client.views.components;
 
-import org.familia.client.helpers.Asset;
 import org.familia.client.helpers.TextWriter;
 
 import javax.swing.*;
@@ -8,7 +7,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class RollBtn extends JButton {
+public class RollButton extends JButton {
     private final int size;
     private final int thickness = 2;
     private Color color = Color.decode("#D24B4B");
@@ -18,7 +17,7 @@ public class RollBtn extends JButton {
         Color.ORANGE,   // Hover color
     };
 
-    public RollBtn(int x, int y, int size) {
+    public RollButton(int x, int y, int size) {
         this.size = size;
 
         setBounds(x, y, size, size);

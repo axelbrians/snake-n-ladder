@@ -1,7 +1,7 @@
 package org.familia.client.views;
 
 import org.familia.client.views.components.Background;
-import org.familia.client.views.components.RollBtn;
+import org.familia.client.views.components.RollButton;
 import org.familia.client.views.components.RollSlider;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class RollBox extends JLayeredPane {
         background = new Background(width, height, "RollBox.png");
         add(background, 0, 0);
 
-        add(new RollBtn(94, 123, 86), 1, 1);
+        add(new RollButton(94, 123, 86), 1, 1);
         add(new RollSlider(132, 38, 6, 59), 1, 1);
     }
 }
