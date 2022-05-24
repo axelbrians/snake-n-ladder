@@ -17,5 +17,15 @@ public class RollButton extends CustomButton {
         g.fillOval(0, 0, width, height);
 
         TextWriter.writeInMiddle(g, "Roll", width, height);
+
+        if (isActive) {
+            return;
+        }
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+        g2d.setColor(Color.BLACK);
+        g2d.fillOval(0, 0, width, height);
     }
 }
