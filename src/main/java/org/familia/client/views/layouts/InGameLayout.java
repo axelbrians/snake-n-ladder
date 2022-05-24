@@ -49,26 +49,36 @@ public class InGameLayout extends JLayeredPane {
         add(rollBox, 1, 1);
         add(playerBox, 1, 1);
         add(chatBox, 1, 1);
-        addOverlay("loading");
+        addOverlay("networkError");
     }
 
+    /**
+     * Add overlay with animation.
+     *
+     * @param name
+     */
     public void addOverlay(String name) {
         if (!overlays.containsKey(name)) {
             throw new IllegalArgumentException("No " + name + " found in overlays.");
         }
         Overlay overlay = overlays.get(name);
-        add(overlay, 2, 2);
+        overlay.addToPane(this, 2, 2);
+
         chatBox.disableChatbox();
         rollBox.disableRollBox();
     }
 
+    /**
+     * Add overlay listener to remove overlay with animation.
+     */
     private void addOverlayListener() {
+        JLayeredPane pane = this;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                remove(overlays.get("dice"));
-                remove(overlays.get("loading"));
+                overlays.get("dice").removeFromPane(pane);
+                overlays.get("loading").removeFromPane(pane);
 
                 chatBox.enableChatbox();
                 rollBox.enableRollBox();
