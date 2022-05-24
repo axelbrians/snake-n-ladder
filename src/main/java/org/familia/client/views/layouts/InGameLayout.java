@@ -3,6 +3,7 @@ package org.familia.client.views.layouts;
 import org.familia.client.Main;
 import org.familia.client.views.GameBoard;
 import org.familia.client.views.backgrounds.InGameBackground;
+import org.familia.client.views.backgrounds.StartGameBackground;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +12,8 @@ import java.awt.event.WindowEvent;
 
 public class InGameLayout extends JFrame {
     private JLayeredPane lpane = new JLayeredPane();
-    private final int width;
-    private final int height;
+    private final int WIDTH;
+    private final int HEIGHT;
 
     /**
      * Construct Frame
@@ -20,19 +21,19 @@ public class InGameLayout extends JFrame {
      * @param title
      */
     public InGameLayout(String title) {
-        this.width = Main.WIDTH;
-        this.height = Main.HEIGHT;
+        this.WIDTH = Main.WIDTH;
+        this.HEIGHT = Main.HEIGHT;
 
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLayout(null);
-        setSize(width + 16, height + 39);
+        setSize(WIDTH + 16, HEIGHT + 39);
         setLocationRelativeTo(null);
 
         addClosePrompt(this);
         add(lpane, BorderLayout.CENTER);
-        lpane.setBounds(0, 0, width, height);
+        lpane.setBounds(0, 0, WIDTH, HEIGHT);
 
         setPanels();
         setVisible(true);
@@ -57,7 +58,7 @@ public class InGameLayout extends JFrame {
      * Set all panels in the frame.
      */
     private void setPanels() {
-        JPanel mainPanel = new InGameBackground(width, height);
+        JPanel mainPanel = new StartGameBackground(WIDTH, HEIGHT);
         JLayeredPane board = new GameBoard();
 
         lpane.add(mainPanel, 0, 0);
