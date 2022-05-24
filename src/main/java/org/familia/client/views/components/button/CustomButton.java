@@ -16,6 +16,7 @@ public class CustomButton extends JButton {
     protected final String text;
     protected final Border defaultBorder;
     protected final Border hoverBorder;
+    protected boolean isActive;
 
     public CustomButton(int x,
                         int y,
@@ -60,6 +61,7 @@ public class CustomButton extends JButton {
         this.hoverBorder = (hoverBorderColor == null)
                 ? null
                 : new RoundedBorder(hoverBorderColor, arc, borderThickness);
+        this.isActive = true;
 
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
@@ -68,13 +70,23 @@ public class CustomButton extends JButton {
         setHoverEffect();
     }
 
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     protected void setHoverEffect() {
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
+                if (!isActive) return;
                 setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 setBorder(hoverBorder);
             }
             public void mouseExited(MouseEvent e) {
+                if (!isActive) return;
                 setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 setBorder(defaultBorder);
             }

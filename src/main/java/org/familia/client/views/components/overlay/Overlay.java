@@ -30,6 +30,6 @@ public class Overlay extends JLayeredPane {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(0, 0, width - 1, height - 1);
+        g2d.fillRect(0, 0, width, height);
     }
 }

@@ -10,7 +10,7 @@ public class ChatSendButton extends CustomButton {
     private final Image sendBtn;
 
     public ChatSendButton(int x, int y, int size) throws IOException {
-        super(x, y, size, size, 360, "", null, null);
+        super(x, y, size, size, 360, "", null, Color.WHITE);
 
         sendBtn = Asset.getImage("SendBtn.png", size, size);
     }

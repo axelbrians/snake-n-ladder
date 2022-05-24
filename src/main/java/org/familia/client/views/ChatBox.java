@@ -17,9 +17,9 @@ public class ChatBox extends JPanel {
     private final int arc = 15;
 
     private final static String newline = "\n";
-    protected ChatTextField textField;
-    protected ChatSendButton sendButton;
-    protected ChatTextPane textPane;
+    private ChatTextField textField;
+    private ChatSendButton sendButton;
+    private ChatTextPane textPane;
 
     public ChatBox(int x, int y, int width, int height) throws IOException {
         super();
@@ -41,6 +41,18 @@ public class ChatBox extends JPanel {
         add(textField);
         add(sendButton);
         add(textPane);
+    }
+
+    public void enableChatbox() {
+        textField.setEnabled(true);
+        textPane.scrollPane.setEnabled(true);
+        sendButton.setIsActive(true);
+    }
+
+    public void disableChatbox() {
+        textField.setEnabled(false);
+        textPane.scrollPane.setEnabled(false);
+        sendButton.setIsActive(false);
     }
 
     private void sendText() {
