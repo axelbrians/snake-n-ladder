@@ -1,12 +1,13 @@
 package org.familia.client.views.components.overlay;
 
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Overlay extends JLayeredPane {
     protected final int width;
     protected final int height;
-    protected final float alpha;
+    protected float alpha;
 
     public Overlay(int x, int y, int width, int height, float alpha) {
         super();

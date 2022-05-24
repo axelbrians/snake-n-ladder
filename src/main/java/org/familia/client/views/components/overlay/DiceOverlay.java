@@ -1,5 +1,6 @@
 package org.familia.client.views.components.overlay;
 
+import org.familia.client.Main;
 import org.familia.client.views.components.Background;
 
 import java.awt.*;
@@ -8,6 +9,10 @@ import java.io.IOException;
 public class DiceOverlay extends Overlay {
     private final Background dice;
     private int diceNumber;
+
+    public DiceOverlay() throws IOException {
+        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+    }
 
     public DiceOverlay(int x, int y, int width, int height, float alpha) throws IOException {
         super(x, y, width, height, alpha);

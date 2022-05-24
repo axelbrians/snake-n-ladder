@@ -1,31 +1,31 @@
 package org.familia.client.views.frames;
 
-import org.familia.client.views.ChatBox;
+import org.familia.client.views.components.overlay.NetworkErrorOverlay;
+import org.familia.client.views.layouts.InGameLayout;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * Construct frame and link it with its layout file.
  */
 public class InGameFrame extends JFrame {
-    private final JLayeredPane layout;
+    private Timer timer;
 
     /**
      * Construct Frame
      *
      * @param title
      */
-    public InGameFrame(String title, JLayeredPane layout) {
+    public InGameFrame(String title, InGameLayout layout) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLayout(null);
         addClosePrompt(this);
 
-        this.layout = layout;
         setContentPane(layout);
+        ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
 
         pack();
         setLocationRelativeTo(null);

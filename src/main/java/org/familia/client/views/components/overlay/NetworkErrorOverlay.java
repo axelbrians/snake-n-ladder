@@ -1,9 +1,14 @@
 package org.familia.client.views.components.overlay;
 
+import org.familia.client.Main;
 import org.familia.client.helpers.TextWriter;
 import org.familia.client.views.components.button.WoodButton;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,11 +17,23 @@ public class NetworkErrorOverlay extends Overlay {
     private final String text = "Network Error";
     private WoodButton exitBtn;
 
+    public NetworkErrorOverlay() throws IOException {
+        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+    }
+
     public NetworkErrorOverlay(int x, int y, int width, int height, float alpha) throws IOException {
         super(x, y, width, height, alpha);
 
         exitBtn = new WoodButton(403, 406, 105, 42, "Exit");
         add(exitBtn, 1, 1);
+    }
+
+    public void setExitAction(JFrame frame) {
+        exitBtn.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
     }
 
     @Override

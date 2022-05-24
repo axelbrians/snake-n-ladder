@@ -13,15 +13,21 @@ import org.familia.client.views.components.overlay.Overlay;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * Adjust frame size and contents.
  */
 public class InGameLayout extends JLayeredPane {
+    public HashMap<String, Overlay> overlays = new HashMap<>();
+
     public InGameLayout() throws Exception {
         setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
         String[] players = { "Player1", "Player2" };
+        overlays.put("dice", new DiceOverlay());
+        overlays.put("loading", new LoadingOverlay());
+        overlays.put("networkError", new NetworkErrorOverlay());
 
         JPanel background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
         JLayeredPane board = new GameBoard(30, 52, 617);
@@ -29,7 +35,7 @@ public class InGameLayout extends JLayeredPane {
         JLayeredPane rollBox = new RollBox(664, 218, 277, 230);
         JPanel chatBox = new ChatBox(664, 479, 277, 190);
 
-        Overlay overlay = new NetworkErrorOverlay(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+        Overlay overlay = overlays.get("dice");
 
         add(background, 0, 0);
         add(board, 1, 1);
