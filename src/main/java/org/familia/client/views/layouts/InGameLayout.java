@@ -49,7 +49,7 @@ public class InGameLayout extends JLayeredPane {
         add(rollBox, 1, 1);
         add(playerBox, 1, 1);
         add(chatBox, 1, 1);
-        addOverlay("networkError");
+//        addOverlay("networkError");
     }
 
     /**
