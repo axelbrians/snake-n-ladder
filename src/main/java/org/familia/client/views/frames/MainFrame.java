@@ -26,7 +26,9 @@ public class MainFrame extends JFrame {
         addClosePrompt(this);
 
         setContentPane(layout);
-        ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
+        if (layout.overlays.containsKey("networkError")) {
+            ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
+        }
 
         pack();
         setLocationRelativeTo(null);

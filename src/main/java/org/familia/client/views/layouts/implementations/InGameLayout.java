@@ -13,16 +13,13 @@ import org.familia.client.views.components.overlay.NetworkErrorOverlay;
 import org.familia.client.views.components.overlay.Overlay;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 
 /**
  * Adjust frame size and contents.
  */
 public class InGameLayout extends GameLayout {
-    private Background background;
     private GameBoard board;
     private PlayerBox playerBox;
     private RollBox rollBox;
@@ -30,12 +27,10 @@ public class InGameLayout extends GameLayout {
 
     public InGameLayout() throws Exception {
         super();
-        setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
         String[] players = { "Player1", "Player2" };
         overlays.put("dice", new DiceOverlay());
         overlays.put("loading", new LoadingOverlay());
-        overlays.put("networkError", new NetworkErrorOverlay());
 
         background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
         board = new GameBoard(30, 52, 617);
