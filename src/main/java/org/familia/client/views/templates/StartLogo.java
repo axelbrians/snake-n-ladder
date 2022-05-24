@@ -11,11 +11,12 @@ public class StartLogo extends JLayeredPane {
     private GroupButton groupButton;
 
     public StartLogo(int x, int y, int width, int height) throws Exception {
+        setLayout(null);
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
 
         gameLogo = new GameLogo(0, 0, 454, 261);
-        groupButton = new GroupButton(9, 300, 436, 56);
+        groupButton = new GroupButton(9, 322, 436, 52);
 
         add(gameLogo, 0, 0);
         add(groupButton, 0, 0);

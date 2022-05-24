@@ -8,5 +8,6 @@ public class DefaultWoodButton extends WoodButton {
 
     public DefaultWoodButton(int x, int y, String text) throws IOException {
         super(x, y, WIDTH, HEIGHT, text);
+
     }
 }

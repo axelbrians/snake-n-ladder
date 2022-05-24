@@ -9,6 +9,7 @@ public class GameLogo extends JLayeredPane {
     private Background background;
 
     public GameLogo(int x, int y, int width, int height) throws Exception {
+        setLayout(null);
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
 
