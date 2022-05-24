@@ -1,6 +1,8 @@
 package org.familia.client.views.components;
 
 import org.familia.client.views.components.button.DefaultWoodButton;
+import org.familia.client.views.layouts.implementations.StartGameLayout;
+import org.familia.client.views.templates.StartLogo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +22,17 @@ public class GroupButton extends JLayeredPane {
         startBtn = new DefaultWoodButton(0, 0, START);
         creditBtn = new DefaultWoodButton(162, 0, CREDIT);
         exitBtn = new DefaultWoodButton(324, 0, EXIT);
+
+        creditBtn.addActionListener(e -> {
+            StartGameLayout startGameLayout = getStartLogo().getStartGameLayout();
+            startGameLayout.getCreditTemplate().setVisible(true);
+            startGameLayout.getStartLogo().setVisible(false);
+        });
+
+        exitBtn.addActionListener(e -> {
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.dispose();
+        });
 
         add(startBtn, 0, 0);
         add(creditBtn, 0, 0);
