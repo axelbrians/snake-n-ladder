@@ -1,4 +1,4 @@
-package org.familia.client.views;
+package org.familia.client.views.templates;
 
 import org.familia.client.views.components.chat.ChatSendButton;
 import org.familia.client.views.components.chat.ChatTextField;

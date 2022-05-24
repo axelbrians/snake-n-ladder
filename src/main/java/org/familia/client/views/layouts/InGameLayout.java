@@ -1,12 +1,10 @@
 package org.familia.client.views.layouts;
 
 import org.familia.client.Main;
-import org.familia.client.views.ChatBox;
-import org.familia.client.views.GameBoard;
-import org.familia.client.views.backgrounds.InGameBackground;
-import org.familia.client.views.backgrounds.StartGameBackground;
-import org.familia.client.views.PlayerBox;
-import org.familia.client.views.RollBox;
+import org.familia.client.views.templates.ChatBox;
+import org.familia.client.views.templates.GameBoard;
+import org.familia.client.views.templates.PlayerBox;
+import org.familia.client.views.templates.RollBox;
 import org.familia.client.views.components.Background;
 import org.familia.client.views.components.overlay.DiceOverlay;
 import org.familia.client.views.components.overlay.LoadingOverlay;

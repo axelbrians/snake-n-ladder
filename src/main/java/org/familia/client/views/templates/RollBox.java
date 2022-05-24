@@ -1,4 +1,4 @@
-package org.familia.client.views;
+package org.familia.client.views.templates;
 
 import org.familia.client.views.components.Background;
 import org.familia.client.views.components.button.RollButton;
