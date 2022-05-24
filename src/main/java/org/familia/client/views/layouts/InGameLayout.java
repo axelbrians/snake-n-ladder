@@ -29,7 +29,7 @@ public class InGameLayout extends JLayeredPane {
         JLayeredPane rollBox = new RollBox(664, 218, 277, 230);
         JPanel chatBox = new ChatBox(664, 479, 277, 190);
 
-        Overlay overlay = new DiceOverlay(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+        Overlay overlay = new NetworkErrorOverlay(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
 
         add(background, 0, 0);
         add(board, 1, 1);

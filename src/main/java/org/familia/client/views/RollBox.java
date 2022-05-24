@@ -1,7 +1,7 @@
 package org.familia.client.views;
 
 import org.familia.client.views.components.Background;
-import org.familia.client.views.components.RollButton;
+import org.familia.client.views.components.button.RollButton;
 import org.familia.client.views.components.RollSlider;
 
 import javax.swing.*;

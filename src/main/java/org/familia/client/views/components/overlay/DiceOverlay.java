@@ -28,10 +28,10 @@ public class DiceOverlay extends Overlay {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         // Set font
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setColor(Color.WHITE);
         g2d.setFont((new Font("Source Serif Pro", Font.BOLD, 128)));
 
@@ -39,7 +39,7 @@ public class DiceOverlay extends Overlay {
         FontMetrics font = g2d.getFontMetrics();
         String diceNumStr = Integer.toString(diceNumber);
         int x = (width - font.stringWidth(diceNumStr))/2;
-        g2d.drawString(diceNumStr, x, 360+130);
+        g2d.drawString(diceNumStr, x, 490);
 
         g2d.dispose();
     }
