@@ -1,7 +1,7 @@
 package org.familia.client.views.frames;
 
 import org.familia.client.views.components.overlay.NetworkErrorOverlay;
-import org.familia.client.views.layouts.InGameLayout;
+import org.familia.client.views.layouts.GameLayout;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -12,12 +12,12 @@ import java.awt.event.*;
 public class InGameFrame extends JFrame {
     private Timer timer;
 
+
     /**
-     * Construct Frame
-     *
-     * @param title
+     * @param title for the name of Frame
+     * @param layout for layout that will be used
      */
-    public InGameFrame(String title, InGameLayout layout) {
+    public InGameFrame(String title, GameLayout layout) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);

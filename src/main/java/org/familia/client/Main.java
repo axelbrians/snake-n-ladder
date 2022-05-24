@@ -1,10 +1,9 @@
 package org.familia.client;
 
 import org.familia.client.views.frames.InGameFrame;
-import org.familia.client.views.layouts.InGameLayout;
+import org.familia.client.views.layouts.implementations.InGameLayout;
 
 import javax.swing.*;
-import java.io.IOException;
 
 /**
  * Create frame and its corresponding layout file.

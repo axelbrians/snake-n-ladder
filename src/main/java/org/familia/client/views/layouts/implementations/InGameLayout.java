@@ -1,6 +1,7 @@
-package org.familia.client.views.layouts;
+package org.familia.client.views.layouts.implementations;
 
 import org.familia.client.Main;
+import org.familia.client.views.layouts.GameLayout;
 import org.familia.client.views.templates.ChatBox;
 import org.familia.client.views.templates.GameBoard;
 import org.familia.client.views.templates.PlayerBox;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 /**
  * Adjust frame size and contents.
  */
-public class InGameLayout extends JLayeredPane {
+public class InGameLayout extends GameLayout {
     public HashMap<String, Overlay> overlays = new HashMap<>();
     private Background background;
     private GameBoard board;
