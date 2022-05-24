@@ -2,6 +2,7 @@ package org.familia.client.views.frames;
 
 import org.familia.client.views.components.overlay.NetworkErrorOverlay;
 import org.familia.client.views.layouts.GameLayout;
+import org.familia.client.views.layouts.implementations.InGameLayout;
 
 import javax.swing.*;
 import java.awt.event.*;

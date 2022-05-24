@@ -22,7 +22,6 @@ import java.util.HashMap;
  * Adjust frame size and contents.
  */
 public class InGameLayout extends GameLayout {
-    public HashMap<String, Overlay> overlays = new HashMap<>();
     private Background background;
     private GameBoard board;
     private PlayerBox playerBox;
@@ -30,6 +29,7 @@ public class InGameLayout extends GameLayout {
     private ChatBox chatBox;
 
     public InGameLayout() throws Exception {
+        super();
         setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
         String[] players = { "Player1", "Player2" };

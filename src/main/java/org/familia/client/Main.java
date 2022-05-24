@@ -15,7 +15,8 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                new MainFrame("Snake And Ladder", new InGameLayout());
+                InGameLayout inGameLayout = new InGameLayout();
+                new MainFrame("Snake And Ladder", inGameLayout);
             } catch (Exception e) {
                 e.printStackTrace();
             }

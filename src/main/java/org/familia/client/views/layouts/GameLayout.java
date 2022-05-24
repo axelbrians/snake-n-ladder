@@ -7,4 +7,6 @@ import java.util.HashMap;
 
 public class GameLayout extends JLayeredPane {
     public HashMap<String, Overlay> overlays = new HashMap<>();
+
+    public GameLayout() {}
 }
