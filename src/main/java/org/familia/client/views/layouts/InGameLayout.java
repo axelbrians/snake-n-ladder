@@ -1,67 +1,92 @@
 package org.familia.client.views.layouts;
 
 import org.familia.client.Main;
+import org.familia.client.views.ChatBox;
 import org.familia.client.views.GameBoard;
 import org.familia.client.views.backgrounds.InGameBackground;
 import org.familia.client.views.backgrounds.StartGameBackground;
+import org.familia.client.views.PlayerBox;
+import org.familia.client.views.RollBox;
+import org.familia.client.views.components.Background;
+import org.familia.client.views.components.overlay.DiceOverlay;
+import org.familia.client.views.components.overlay.LoadingOverlay;
+import org.familia.client.views.components.overlay.NetworkErrorOverlay;
+import org.familia.client.views.components.overlay.Overlay;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
-public class InGameLayout extends JFrame {
-    private JLayeredPane lpane = new JLayeredPane();
-    private final int WIDTH;
-    private final int HEIGHT;
+/**
+ * Adjust frame size and contents.
+ */
+public class InGameLayout extends JLayeredPane {
+    public HashMap<String, Overlay> overlays = new HashMap<>();
+    private Background background;
+    private GameBoard board;
+    private PlayerBox playerBox;
+    private RollBox rollBox;
+    private ChatBox chatBox;
 
-    /**
-     * Construct Frame
-     *
-     * @param title
-     */
-    public InGameLayout(String title) {
-        this.WIDTH = Main.WIDTH;
-        this.HEIGHT = Main.HEIGHT;
+    public InGameLayout() throws Exception {
+        setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
-        setTitle(title);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        setLayout(null);
-        setSize(WIDTH + 16, HEIGHT + 39);
-        setLocationRelativeTo(null);
+        String[] players = { "Player1", "Player2" };
+        overlays.put("dice", new DiceOverlay());
+        overlays.put("loading", new LoadingOverlay());
+        overlays.put("networkError", new NetworkErrorOverlay());
 
-        addClosePrompt(this);
-        add(lpane, BorderLayout.CENTER);
-        lpane.setBounds(0, 0, WIDTH, HEIGHT);
+        background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
+        board = new GameBoard(30, 52, 617);
+        playerBox = new PlayerBox(664, 52, 277, 131, players);
+        rollBox = new RollBox(664, 218, 277, 230);
+        chatBox = new ChatBox(664, 479, 277, 190);
 
-        setPanels();
-        setVisible(true);
+        addOverlayListener();
+
+        add(background, 0, 0);
+        add(board, 1, 1);
+        add(rollBox, 1, 1);
+        add(playerBox, 1, 1);
+        add(chatBox, 1, 1);
+//        addOverlay("networkError");
     }
 
-    private void addClosePrompt(JFrame frame) {
-        frame.addWindowListener(new WindowAdapter() {
+    /**
+     * Add overlay with animation.
+     *
+     * @param name
+     */
+    public void addOverlay(String name) {
+        if (!overlays.containsKey(name)) {
+            throw new IllegalArgumentException("No " + name + " found in overlays.");
+        }
+        Overlay overlay = overlays.get(name);
+        overlay.addToPane(this, 2, 2);
+
+        chatBox.disableChatbox();
+        rollBox.disableRollBox();
+    }
+
+    /**
+     * Add overlay listener to remove overlay with animation.
+     */
+    private void addOverlayListener() {
+        JLayeredPane pane = this;
+        addMouseListener(new MouseAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
-                int choose = JOptionPane.showConfirmDialog(frame, "Do you really want to exit the application?",
-                        "Confirm Close", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if(choose == JOptionPane.YES_OPTION) {
-                    e.getWindow().dispose();
-                } else {
-                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                }
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                overlays.get("dice").removeFromPane(pane);
+                overlays.get("loading").removeFromPane(pane);
+
+                chatBox.enableChatbox();
+                rollBox.enableRollBox();
+
+                repaint();
             }
         });
-    }
-
-    /**
-     * Set all panels in the frame.
-     */
-    private void setPanels() {
-        JPanel mainPanel = new StartGameBackground(WIDTH, HEIGHT);
-        JLayeredPane board = new GameBoard();
-
-        lpane.add(mainPanel, 0, 0);
-        lpane.add(board, 1, 1);
     }
 }
