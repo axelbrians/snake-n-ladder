@@ -1,7 +1,8 @@
 package org.familia.client.views.frames;
 
 import org.familia.client.views.components.overlay.NetworkErrorOverlay;
-import org.familia.client.views.layouts.InGameLayout;
+import org.familia.client.views.layouts.GameLayout;
+import org.familia.client.views.layouts.implementations.InGameLayout;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -9,15 +10,15 @@ import java.awt.event.*;
 /**
  * Construct frame and link it with its layout file.
  */
-public class InGameFrame extends JFrame {
+public class MainFrame extends JFrame {
     private Timer timer;
 
+
     /**
-     * Construct Frame
-     *
-     * @param title
+     * @param title for the name of Frame
+     * @param layout for layout that will be used
      */
-    public InGameFrame(String title, InGameLayout layout) {
+    public MainFrame(String title, GameLayout layout) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -25,7 +26,9 @@ public class InGameFrame extends JFrame {
         addClosePrompt(this);
 
         setContentPane(layout);
-        ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
+        if (layout.overlays.containsKey("networkError")) {
+            ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
+        }
 
         pack();
         setLocationRelativeTo(null);

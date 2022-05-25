@@ -1,10 +1,10 @@
 package org.familia.client;
 
-import org.familia.client.views.frames.InGameFrame;
-import org.familia.client.views.layouts.InGameLayout;
+import org.familia.client.views.frames.MainFrame;
+import org.familia.client.views.layouts.implementations.InGameLayout;
+import org.familia.client.views.layouts.implementations.StartGameLayout;
 
 import javax.swing.*;
-import java.io.IOException;
 
 /**
  * Create frame and its corresponding layout file.
@@ -16,7 +16,9 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                new InGameFrame("Snake And Ladder", new InGameLayout());
+                InGameLayout inGameLayout = new InGameLayout();
+                StartGameLayout startGameLayout = new StartGameLayout();
+                new MainFrame("Snake And Ladder", startGameLayout);
             } catch (Exception e) {
                 e.printStackTrace();
             }

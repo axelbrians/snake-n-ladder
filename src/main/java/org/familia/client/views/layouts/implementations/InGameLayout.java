@@ -1,6 +1,7 @@
-package org.familia.client.views.layouts;
+package org.familia.client.views.layouts.implementations;
 
 import org.familia.client.Main;
+import org.familia.client.views.layouts.GameLayout;
 import org.familia.client.views.templates.ChatBox;
 import org.familia.client.views.templates.GameBoard;
 import org.familia.client.views.templates.PlayerBox;
@@ -12,29 +13,24 @@ import org.familia.client.views.components.overlay.NetworkErrorOverlay;
 import org.familia.client.views.components.overlay.Overlay;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 
 /**
  * Adjust frame size and contents.
  */
-public class InGameLayout extends JLayeredPane {
-    public HashMap<String, Overlay> overlays = new HashMap<>();
-    private Background background;
+public class InGameLayout extends GameLayout {
     private GameBoard board;
     private PlayerBox playerBox;
     private RollBox rollBox;
     private ChatBox chatBox;
 
     public InGameLayout() throws Exception {
-        setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
+        super();
 
         String[] players = { "Player1", "Player2" };
         overlays.put("dice", new DiceOverlay());
         overlays.put("loading", new LoadingOverlay());
-        overlays.put("networkError", new NetworkErrorOverlay());
 
         background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
         board = new GameBoard(30, 52, 617);
