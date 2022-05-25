@@ -60,15 +60,27 @@ fun main() {
 
     while (true) {
         val matching = readln()
-        when (matching) {
-            "/roll 1" -> {
-                println("Rolling dice...")
-                objectOutput.writeObject(
-                    Request(
-                        RollDiceRequest(1)
-                    )
+
+        if (matching.contains("/roll ")) {
+            val diceRoll = matching.substringAfter("/roll ", "1").toInt()
+            println("Rolling dice...")
+            objectOutput.writeObject(
+                Request(
+                    RollDiceRequest(diceRoll)
                 )
-            }
+            )
+            continue
+        }
+
+        when (matching) {
+//            "/roll 1" -> {
+//                println("Rolling dice...")
+//                objectOutput.writeObject(
+//                    Request(
+//                        RollDiceRequest(1)
+//                    )
+//                )
+//            }
             "/match 1" -> {
                 println("Entering match queue for 2 player")
                 val match = Match(

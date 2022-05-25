@@ -93,12 +93,26 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
             twoPlayerMatchQueue.add(client)
             println("${client.username} enter 2 player match, total user: " + twoPlayerMatchQueue.size)
             if (twoPlayerMatchQueue.size >= 2) {
+                try {
+                    logger.clientDisconnected(client.getSocketKey(), client.username)
+                    clientJobs[client.getSocketKey()]?.cancel()
+                    clientJobs.remove(client.getSocketKey())
+                } catch (e: Exception) {
+                    logger.logException(e)
+                }
                 createMatch(matchType)
             }
         } else if (matchType == MatchType.FourPlayer) {
             fourPlayerMatchQueue.add(client)
             println("${client.username} enter 4 player match, total user: " + fourPlayerMatchQueue.size)
             if (fourPlayerMatchQueue.size >= 4) {
+                try {
+                    logger.clientDisconnected(client.getSocketKey(), client.username)
+                    clientJobs[client.getSocketKey()]?.cancel()
+                    clientJobs.remove(client.getSocketKey())
+                } catch (e: Exception) {
+                    logger.logException(e)
+                }
                 createMatch(matchType)
             }
         }
@@ -122,7 +136,7 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
 
             println(twoPlayerMatchQueue.first().username)
             playingClients.add(twoPlayerMatchQueue.first())
-            twoPlayerMatchQueue.first().sendBoard(Status.Success, boardResponse)
+            twoPlayerMatchQueue.first().sendBoardResponse(Status.Success, boardResponse)
             twoPlayerMatchQueue.removeFirst()
         }
 
