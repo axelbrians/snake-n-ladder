@@ -41,13 +41,14 @@ class SnakeClient(
             val request = inputStream.readObject() as Request
             if (request.payload is Match) {
                 requestMatch(request.payload as Match)
-                //  todo harusnya jangan pake vreaj
+                //  todo harusnya jangan pake break
                 // stop serve pake cancel coroutihe
                 break
             }
         }
 
     } catch (e: SocketException) {
+        println(e.stackTrace)
         disconnect()
     }
 
@@ -111,7 +112,7 @@ class SnakeClient(
     fun sendTurnResponse(response: PlayerTurnResponse) {
         outputStream.writeObject(
             Response(
-                "Your turn to ngocok",
+                "Your turn to roll the dice",
                 Status.Success,
                 response
             )

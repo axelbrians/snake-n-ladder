@@ -88,11 +88,6 @@ class MatchServer(
         val endMatchResponse = EndMatchResponse(finishedPlayers.toList())
         clients.forEach { client: SnakeClient ->
             client.sendEndMatchResponse(endMatchResponse)
-            val clientJob = coroutineScope.launch {
-
-                client.serve()
-            }
-        // client.serve()
         }
     }
 }
