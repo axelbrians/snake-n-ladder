@@ -3,12 +3,14 @@ package org.familia.server.core
 import org.familia.client.apps.networks.request.Request
 import org.familia.client.apps.networks.request.board.RollDiceRequest
 import org.familia.client.apps.networks.request.match.Match
+import org.familia.client.apps.networks.request.user.Message
 import org.familia.client.apps.networks.request.user.User
 import org.familia.client.apps.networks.response.Response
 import org.familia.client.apps.networks.response.board.BoardResponse
 import org.familia.client.apps.networks.response.board.EndMatchResponse
 import org.familia.client.apps.networks.response.board.PlayerMoveResponse
 import org.familia.client.apps.networks.response.board.PlayerTurnResponse
+import org.familia.client.apps.networks.response.user.MessageResponse
 import org.familia.client.apps.networks.response.user.UserResponse
 import org.familia.client.apps.networks.status.Status
 import org.familia.server.contract.ClientConnectionContract
@@ -47,6 +49,32 @@ class SnakeClient(
             }
         }
 
+    } catch (e: SocketException) {
+        println(e.stackTrace)
+        disconnect()
+    }
+
+    fun inGameServe(
+        onBroadcastPlayerMove: (String, Int, PlayerMoveResponse) -> Unit,
+        onBroadcastMessage: (Message) -> Unit,
+        getCurrentPlayerUsername: () -> String
+    ) = try {
+        while (true) {
+            if (!isConnected) {
+                break
+            }
+            val request = inputStream.readObject() as Request
+            if (request.payload is RollDiceRequest) {
+                val req = request.payload as RollDiceRequest
+                val diceRoll = rollDiceWithHitArea(req.hitArea)
+                val playerMoveResponse = PlayerMoveResponse(username, diceRoll)
+                if (username == getCurrentPlayerUsername()) {
+                    onBroadcastPlayerMove(username, diceRoll, playerMoveResponse)
+                }
+            } else if (request.payload is Message) {
+                onBroadcastMessage(request.payload as Message)
+            }
+        }
     } catch (e: SocketException) {
         println(e.stackTrace)
         disconnect()
@@ -139,8 +167,28 @@ class SnakeClient(
         )
     }
 
-    fun awaitRollRequest(): RollDiceRequest {
-        return (inputStream.readObject() as Request).payload as RollDiceRequest
+    fun sendInGameMessage(response: MessageResponse) {
+        outputStream.writeObject(
+            Response(
+                response.text,
+                Status.Success,
+                response
+            )
+        )
+    }
+
+//    fun awaitRollRequest(): RollDiceRequest {
+//        return (inputStream.readObject() as Request).payload as RollDiceRequest
+//    }
+
+    fun awaitRollRequest(request: Request): RollDiceRequest {
+        return request.payload as RollDiceRequest
+    }
+
+    private fun rollDiceWithHitArea(hitArea: Int): Int {
+        // TODO:(Logic dice roll with hitArea here)
+
+        return hitArea
     }
 
     private fun disconnect() {

@@ -5,6 +5,7 @@ import org.familia.client.apps.networks.request.Request
 import org.familia.client.apps.networks.request.board.RollDiceRequest
 import org.familia.client.apps.networks.request.match.Match
 import org.familia.client.apps.networks.request.match.MatchType
+import org.familia.client.apps.networks.request.user.Message
 import org.familia.client.apps.networks.request.user.User
 import org.familia.client.apps.networks.response.Response
 import org.familia.client.apps.networks.response.board.BoardResponse
@@ -25,11 +26,11 @@ fun main() {
     val objectInput = ObjectInputStream(socket.getInputStream())
 
     var user: User
-
+    var username: String
     while (true) {
         println("Enter your username (3 to 8 characters):")
 
-        var username: String
+
 
         while (true) {
             username = readln()
@@ -60,28 +61,28 @@ fun main() {
 
     while (true) {
         val matching = readln()
-
-        if (matching.contains("/roll ")) {
-            val diceRoll = matching.substringAfter("/roll ", "1").toInt()
-            println("Rolling dice...")
-            objectOutput.writeObject(
-                Request(
-                    RollDiceRequest(diceRoll)
+        when {
+            matching.contains("/roll ") -> {
+                val diceRoll = matching.substringAfter("/roll ", "1").toInt()
+                println("Rolling dice...")
+                objectOutput.writeObject(
+                    Request(
+                        RollDiceRequest(diceRoll, username)
+                    )
                 )
-            )
-            continue
-        }
-
-        when (matching) {
-//            "/roll 1" -> {
-//                println("Rolling dice...")
-//                objectOutput.writeObject(
-//                    Request(
-//                        RollDiceRequest(1)
-//                    )
-//                )
-//            }
-            "/match 1" -> {
+            }
+            matching.contains("/message ") -> {
+                val msg = matching.substringAfter("/message ")
+                objectOutput.writeObject(
+                    Request(
+                        Message(
+                            username,
+                            msg
+                        )
+                    )
+                )
+            }
+            matching == "/match 1" -> {
                 println("Entering match queue for 2 player")
                 val match = Match(
                     user,
@@ -89,7 +90,7 @@ fun main() {
                 )
                 objectOutput.writeObject(Request(match))
             }
-            "/match 2" -> {
+            matching == "/match 2" -> {
                 println("Entering match queue for 4 player")
                 val match = Match(
                     user,
@@ -97,7 +98,7 @@ fun main() {
                 )
                 objectOutput.writeObject(Request(match))
             }
-            "/exit" -> {
+            matching == "/exit" -> {
                 println("Exiting...")
                 break
             }

@@ -7,8 +7,10 @@ import java.io.Serializable;
 public class RollDiceRequest implements Serializable {
 
     public Integer hitArea;
+    public String username;
 
-    public RollDiceRequest(@NotNull Integer hitArea) {
+    public RollDiceRequest(@NotNull Integer hitArea, @NotNull String username) {
         this.hitArea = hitArea;
+        this.username = username;
     }
 }

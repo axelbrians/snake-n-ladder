@@ -1,13 +1,12 @@
 package org.familia.server.core
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import org.familia.client.apps.networks.request.user.Message
 import org.familia.client.apps.networks.response.board.BoardResponse
 import org.familia.client.apps.networks.response.board.EndMatchResponse
 import org.familia.client.apps.networks.response.board.PlayerMoveResponse
 import org.familia.client.apps.networks.response.board.PlayerTurnResponse
-import kotlin.io.path.createTempDirectory
+import org.familia.client.apps.networks.response.user.MessageResponse
 
 class MatchServer(
     private val boardResponse: BoardResponse,
@@ -17,10 +16,17 @@ class MatchServer(
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val finishedPlayerToEndTheGame = boardResponse.players.size - 1
     private var finishedPlayers = mutableSetOf<String>()
+    private val clientJobs = hashMapOf<String, Job>()
 
-    fun startMatch() {
+    private var currentUser = ""
+    private var isBrake = false
+
+    suspend fun startMatch() {
+        startThread()
         matchLoop@ while (true) {
             for ((username, position) in boardResponse.players) {
+
+                // check gamenya udh tamat/belum
                 if (finishedPlayers.size >= finishedPlayerToEndTheGame) {
                     boardResponse.players.forEach {
                         finishedPlayers.add(it.first)
@@ -29,24 +35,21 @@ class MatchServer(
                 } else if (position == 100) {
                     continue
                 }
+
+                //ngirim response ke player buat roll dice
+                currentUser = username
                 clients.find { it.username == username }?.let {
                     it.sendTurnResponse(
                         PlayerTurnResponse(
                             username
                         )
                     )
+                    isBrake = true
+                }
 
-                    val request = it.awaitRollRequest() // waiting for asked player to roll the dice
-
-                    println("$username hit ${request.hitArea} bar")
-
-                    val diceRoll = rollDiceWithHitArea(request.hitArea)
-                    val playerMoveResponse = PlayerMoveResponse(username, diceRoll)
-
-                    updatePlayerPosition(username, diceRoll)
-                    clients.forEach { client: SnakeClient ->
-                        client.sendMoveResponse(playerMoveResponse)
-                    }
+                while (true) {
+                    if (!isBrake) break
+                    delay(200)
                 }
             }
         }
@@ -78,16 +81,44 @@ class MatchServer(
         }
     }
 
-    private fun rollDiceWithHitArea(hitArea: Int): Int {
-        // TODO:(Logic dice roll with hitArea here)
+    private fun broadcastMove(username: String, diceRoll: Int, playerMoveResponse: PlayerMoveResponse) {
+        updatePlayerPosition(username, diceRoll)
+        clients.forEach { client: SnakeClient ->
+            client.sendMoveResponse(playerMoveResponse)
+        }
+        isBrake = false
+    }
 
-        return hitArea
+    private fun broadcastMessage(request: Message) {
+        val message = MessageResponse(
+            request.sender,
+            request.text
+        )
+        clients.forEach { client: SnakeClient ->
+            client.sendInGameMessage(message)
+        }
+    }
+
+    private fun getCurrentPlayerUsername(): String {
+        return currentUser
     }
 
     private fun endMatch() {
         val endMatchResponse = EndMatchResponse(finishedPlayers.toList())
         clients.forEach { client: SnakeClient ->
             client.sendEndMatchResponse(endMatchResponse)
+        }
+    }
+
+    private fun startThread() {
+        clients.forEach { client: SnakeClient ->
+            clientJobs[client.getSocketKey()] = coroutineScope.launch {
+                client.inGameServe(
+                    this@MatchServer::broadcastMove,
+                    this@MatchServer::broadcastMessage,
+                    this@MatchServer::getCurrentPlayerUsername
+                )
+            }
         }
     }
 }
