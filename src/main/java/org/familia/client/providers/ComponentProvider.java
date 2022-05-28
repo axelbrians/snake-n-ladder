@@ -1,7 +1,7 @@
 package org.familia.client.providers;
 
 import org.familia.client.views.frames.MainFrame;
-import org.familia.client.views.layouts.GameLayout;
+import org.familia.client.views.layouts.Layout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ public class ComponentProvider {
         return (MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, component);
     }
 
-    public static GameLayout getGameLayoutAncestor(Component component) {
-        return (GameLayout) SwingUtilities.getAncestorOfClass(GameLayout.class, component);
+    public static Layout getGameLayoutAncestor(Component component) {
+        return (Layout) SwingUtilities.getAncestorOfClass(Layout.class, component);
     }
 }

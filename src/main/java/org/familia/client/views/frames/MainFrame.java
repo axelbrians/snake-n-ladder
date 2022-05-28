@@ -1,7 +1,10 @@
 package org.familia.client.views.frames;
 
-import org.familia.client.views.components.overlay.NetworkErrorOverlay;
-import org.familia.client.views.layouts.GameLayout;
+import org.familia.client.apps.controllers.Controller;
+import org.familia.client.views.components.overlay.ClosableFrame;
+import org.familia.client.views.layouts.HasOverlay;
+import org.familia.client.views.components.overlay.Overlay;
+import org.familia.client.views.layouts.Layout;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -11,13 +14,17 @@ import java.awt.event.*;
  */
 public class MainFrame extends JFrame {
     private Timer timer;
-
+    private Controller controller;
+    private Layout layout;
 
     /**
      * @param title for the name of Frame
-     * @param layout for layout that will be used
+     * @param controller for layout that will be used
      */
-    public MainFrame(String title, GameLayout layout) {
+    public MainFrame(String title, Controller controller) {
+        this.controller = controller;
+        this.layout = controller.getLayout();
+
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -25,8 +32,8 @@ public class MainFrame extends JFrame {
         addClosePrompt(this);
 
         setContentPane(layout);
-        if (layout.overlays.containsKey("networkError")) {
-            ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
+        if (layout instanceof HasOverlay) {
+            setCloseFrameAction((HasOverlay) layout);
         }
 
         pack();
@@ -47,5 +54,14 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+    }
+
+    private void setCloseFrameAction(HasOverlay layout) {
+        for (Overlay overlay: layout.overlays.values()) {
+            if (!(overlay instanceof ClosableFrame)) {
+                continue;
+            }
+            ((ClosableFrame) overlay).setCloseFrameAction(this);
+        }
     }
 }
