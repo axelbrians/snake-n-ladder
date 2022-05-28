@@ -1,7 +1,7 @@
 package org.familia.client.views.frames;
 
 import org.familia.client.views.components.overlay.ClosableFrame;
-import org.familia.client.views.components.overlay.NetworkErrorOverlay;
+import org.familia.client.views.layouts.HasOverlay;
 import org.familia.client.views.components.overlay.Overlay;
 import org.familia.client.views.layouts.Layout;
 
@@ -29,7 +29,9 @@ public class MainFrame extends JFrame {
         addClosePrompt(this);
 
         setContentPane(layout);
-        setCloseFrameAction();
+        if (layout instanceof HasOverlay) {
+            setCloseFrameAction((HasOverlay) layout);
+        }
 
         pack();
         setLocationRelativeTo(null);
@@ -51,7 +53,7 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void setCloseFrameAction() {
+    private void setCloseFrameAction(HasOverlay layout) {
         for (Overlay overlay: layout.overlays.values()) {
             if (!(overlay instanceof ClosableFrame)) {
                 continue;
