@@ -5,6 +5,7 @@ import org.familia.client.views.components.PlayerIcon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class PlayerBox extends JLayeredPane {
     private final Background background;
@@ -28,6 +29,7 @@ public class PlayerBox extends JLayeredPane {
     private final int playerCount;
 
     private PlayerIcon[] playerIcons; // Contain player icon object sorted by turn order.
+    private ArrayList<Integer> winnerIdx = new ArrayList<>(); // Store won player's index, sorted by win rank.
     private int currPlayerIdx = 0;
 
     public PlayerBox(int x, int y, int width, int height, String[] players) throws Exception {
@@ -59,12 +61,27 @@ public class PlayerBox extends JLayeredPane {
     /**
      * Set current player equal to next player.
      */
-    public void next() {
+    public void next() throws Exception {
         playerIcons[currPlayerIdx].setIsActive(false);
-        currPlayerIdx++;
-        if (currPlayerIdx >= playerCount) {
-            currPlayerIdx = 0;
+        if (winnerIdx.size() == playerCount) {
+            throw new Exception("All player already win.");
         }
+        do {
+            currPlayerIdx++;
+            if (currPlayerIdx >= playerCount) {
+                currPlayerIdx = 0;
+            }
+        } while (winnerIdx.contains(currPlayerIdx));
         playerIcons[currPlayerIdx].setIsActive(true);
+    }
+
+    /**
+     * Add won player index.
+     *
+     * @param playerIdx
+     */
+    public void addWonPlayer(int playerIdx) {
+        this.winnerIdx.add(playerIdx);
+        this.playerIcons[playerIdx].setWinner();
     }
 }

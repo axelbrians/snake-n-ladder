@@ -16,7 +16,10 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                InGameLayout inGameLayout = new InGameLayout();
+                String[] players = { "Player1", "Player2", "ads", "sdfs" };
+                int currPlayerIdx = 0;
+                InGameLayout inGameLayout = new InGameLayout(players, currPlayerIdx);
+
                 StartGameLayout startGameLayout = new StartGameLayout();
                 new MainFrame("Snake And Ladder", inGameLayout);
             } catch (Exception e) {

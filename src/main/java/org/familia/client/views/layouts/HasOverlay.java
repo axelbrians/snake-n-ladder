@@ -2,6 +2,8 @@ package org.familia.client.views.layouts;
 
 import org.familia.client.views.components.overlay.Overlay;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -23,5 +25,5 @@ public interface HasOverlay {
     /**
      * Add overlay listener to remove overlay with animation.
      */
-    void removeOverlayListener();
+    void removeOverlayFromPane();
 }
