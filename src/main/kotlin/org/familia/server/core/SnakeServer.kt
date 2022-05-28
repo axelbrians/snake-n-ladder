@@ -1,9 +1,6 @@
 package org.familia.server.core
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.familia.client.apps.networks.request.match.MatchType
 import org.familia.client.apps.networks.response.board.BoardResponse
 import org.familia.client.apps.networks.status.Status
@@ -37,7 +34,10 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
             logger.clientConnected(socket)
 
             val job = coroutineScope.launch {
-                val client = SnakeClient(socket, this@SnakeServer, this@SnakeServer
+                val client = SnakeClient(
+                    socket,
+                    this@SnakeServer,
+                    this@SnakeServer
                 )
 
                 if (client.connect()) {
@@ -93,12 +93,22 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
             twoPlayerMatchQueue.add(client)
             println("${client.username} enter 2 player match, total user: " + twoPlayerMatchQueue.size)
             if (twoPlayerMatchQueue.size >= 2) {
+                try {
+                    logger.clientDisconnected(client.getSocketKey(), client.username)
+                } catch (e: Exception) {
+                    logger.logException(e)
+                }
                 createMatch(matchType)
             }
         } else if (matchType == MatchType.FourPlayer) {
             fourPlayerMatchQueue.add(client)
             println("${client.username} enter 4 player match, total user: " + fourPlayerMatchQueue.size)
             if (fourPlayerMatchQueue.size >= 4) {
+                try {
+                    logger.clientDisconnected(client.getSocketKey(), client.username)
+                } catch (e: Exception) {
+                    logger.logException(e)
+                }
                 createMatch(matchType)
             }
         }
@@ -119,23 +129,32 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
         logger.logMatchedPlayer(tempRoomQueue)
 
         repeat(playerCount) {
-
-            println(twoPlayerMatchQueue.first().username)
-            playingClients.add(twoPlayerMatchQueue.first())
-            twoPlayerMatchQueue.first().sendBoard(Status.Success, boardResponse)
+            with(twoPlayerMatchQueue.first()) {
+                playingClients.add(this)
+                sendBoardResponse(Status.Success, boardResponse)
+            }
             twoPlayerMatchQueue.removeFirst()
         }
 
         println(playingClients.map { it.username })
 
-        val matchJob = matchCoroutineScope.launch {
+        playingClients.forEach {
+            clientJobs[it.getSocketKey()]?.cancel()
+            clientJobs.remove(it.getSocketKey())
+        }
+
+        matchJobs[tempRoomQueue.joinToString { "" }] = matchCoroutineScope.launch {
             MatchServer(
                 boardResponse,
                 playingClients
             ).startMatch()
-        }
 
-        matchJobs[tempRoomQueue.joinToString { "" }] = matchJob
+            playingClients.forEach { client: SnakeClient ->
+                clientJobs[client.getSocketKey()] = coroutineScope.launch {
+                    client.serve()
+                }
+            }
+        }
     }
 
 }

@@ -6,6 +6,8 @@ import org.familia.client.apps.networks.request.match.Match
 import org.familia.client.apps.networks.request.user.User
 import org.familia.client.apps.networks.response.Response
 import org.familia.client.apps.networks.response.board.BoardResponse
+import org.familia.client.apps.networks.response.board.EndMatchResponse
+import org.familia.client.apps.networks.response.board.PlayerMoveResponse
 import org.familia.client.apps.networks.response.board.PlayerTurnResponse
 import org.familia.client.apps.networks.response.user.UserResponse
 import org.familia.client.apps.networks.status.Status
@@ -39,11 +41,14 @@ class SnakeClient(
             val request = inputStream.readObject() as Request
             if (request.payload is Match) {
                 requestMatch(request.payload as Match)
+                //  todo harusnya jangan pake break
+                // stop serve pake cancel coroutihe
                 break
             }
         }
 
     } catch (e: SocketException) {
+        println(e.stackTrace)
         disconnect()
     }
 
@@ -85,7 +90,7 @@ class SnakeClient(
         matchQueueContract.onMatchRequested(this, request.type)
     }
 
-    fun sendBoard(status: Status, board: BoardResponse) {
+    fun sendBoardResponse(status: Status, board: BoardResponse) {
         val message = if (status == Status.Success) {
             "Your board is ready to play"
         } else {
@@ -107,7 +112,27 @@ class SnakeClient(
     fun sendTurnResponse(response: PlayerTurnResponse) {
         outputStream.writeObject(
             Response(
-                "Your turn to ngocok",
+                "Your turn to roll the dice",
+                Status.Success,
+                response
+            )
+        )
+    }
+
+    fun sendMoveResponse(response: PlayerMoveResponse) {
+        outputStream.writeObject(
+            Response(
+                "${response.username} move with ${response.diceRoll}",
+                Status.Success,
+                response
+            )
+        )
+    }
+
+    fun sendEndMatchResponse(response: EndMatchResponse) {
+        outputStream.writeObject(
+            Response(
+                "End Match, rank: ${response.playerRanking.joinToString(separator = ", ")}",
                 Status.Success,
                 response
             )
