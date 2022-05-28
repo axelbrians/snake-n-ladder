@@ -13,7 +13,7 @@ import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class NetworkErrorOverlay extends Overlay {
+public class NetworkErrorOverlay extends Overlay implements ClosableFrame {
     private final String text = "Network Error";
     private WoodButton exitBtn;
 
@@ -28,10 +28,10 @@ public class NetworkErrorOverlay extends Overlay {
         add(exitBtn, 1, 1);
     }
 
-    public void setExitAction(JFrame frame) {
+    public void setCloseFrameAction(JFrame frame) {
         exitBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
     }

@@ -1,7 +1,7 @@
 package org.familia.client.views.layouts.implementations;
 
 import org.familia.client.Main;
-import org.familia.client.views.layouts.GameLayout;
+import org.familia.client.views.layouts.Layout;
 import org.familia.client.views.templates.ChatBox;
 import org.familia.client.views.templates.GameBoard;
 import org.familia.client.views.templates.PlayerBox;
@@ -9,7 +9,6 @@ import org.familia.client.views.templates.RollBox;
 import org.familia.client.views.components.Background;
 import org.familia.client.views.components.overlay.DiceOverlay;
 import org.familia.client.views.components.overlay.LoadingOverlay;
-import org.familia.client.views.components.overlay.NetworkErrorOverlay;
 import org.familia.client.views.components.overlay.Overlay;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ import java.awt.event.MouseEvent;
 /**
  * Adjust frame size and contents.
  */
-public class InGameLayout extends GameLayout {
+public class InGameLayout extends Layout {
     private GameBoard board;
     private PlayerBox playerBox;
     private RollBox rollBox;
@@ -45,7 +44,7 @@ public class InGameLayout extends GameLayout {
         add(rollBox, 1, 1);
         add(playerBox, 1, 1);
         add(chatBox, 1, 1);
-//        addOverlay("networkError");
+        addOverlay("networkError");
     }
 
     /**
@@ -72,14 +71,14 @@ public class InGameLayout extends GameLayout {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                overlays.get("dice").removeFromPane(pane);
-                overlays.get("loading").removeFromPane(pane);
+            super.mouseClicked(e);
+            overlays.get("dice").removeFromPane(pane);
+            overlays.get("loading").removeFromPane(pane);
 
-                chatBox.enableChatbox();
-                rollBox.enableRollBox();
+            chatBox.enableChatbox();
+            rollBox.enableRollBox();
 
-                repaint();
+            repaint();
             }
         });
     }

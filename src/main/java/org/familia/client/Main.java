@@ -18,7 +18,7 @@ public class Main {
             try {
                 InGameLayout inGameLayout = new InGameLayout();
                 StartGameLayout startGameLayout = new StartGameLayout();
-                new MainFrame("Snake And Ladder", startGameLayout);
+                new MainFrame("Snake And Ladder", inGameLayout);
             } catch (Exception e) {
                 e.printStackTrace();
             }

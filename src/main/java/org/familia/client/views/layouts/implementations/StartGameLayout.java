@@ -2,14 +2,11 @@ package org.familia.client.views.layouts.implementations;
 
 import org.familia.client.Main;
 import org.familia.client.views.components.Background;
-import org.familia.client.views.layouts.GameLayout;
-import org.familia.client.views.components.GameLogo;
+import org.familia.client.views.layouts.Layout;
 import org.familia.client.views.templates.CreditTemplate;
 import org.familia.client.views.templates.StartLogo;
 
-import java.awt.*;
-
-public class StartGameLayout extends GameLayout {
+public class StartGameLayout extends Layout {
     private StartLogo startLogo;
     private CreditTemplate creditTemplate;
 

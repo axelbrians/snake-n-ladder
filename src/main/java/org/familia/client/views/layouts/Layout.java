@@ -10,11 +10,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class GameLayout extends JLayeredPane {
+public class Layout extends JLayeredPane {
     public HashMap<String, Overlay> overlays = new HashMap<>();
     protected Background background;
 
-    public GameLayout() throws IOException {
+    public Layout() throws IOException {
         setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT));
 
         overlays.put("networkError", new NetworkErrorOverlay());
