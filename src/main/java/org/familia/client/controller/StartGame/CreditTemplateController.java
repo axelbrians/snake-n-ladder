@@ -1,8 +1,8 @@
-package org.familia.client.controller;
+package org.familia.client.controller.StartGame;
 
 import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.layouts.implementations.StartGameLayout;
-import org.familia.client.views.templates.CreditTemplate;
+import org.familia.client.views.templates.StartGame.CreditTemplate;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

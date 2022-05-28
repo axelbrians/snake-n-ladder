@@ -1,7 +1,6 @@
-package org.familia.client.views.templates;
+package org.familia.client.views.templates.StartGame;
 
-import org.familia.client.controller.CreditTemplateController;
-import org.familia.client.controller.StartLogoController;
+import org.familia.client.controller.StartGame.StartLogoController;
 import org.familia.client.views.components.GameLogo;
 import org.familia.client.views.components.GroupButton;
 
@@ -30,7 +29,12 @@ public class StartLogo extends JLayeredPane {
     }
 
     private void addListener() {
-        JButton creditButton = groupButton.getCreditBtn(), exitButton = groupButton.getExitBtn();
+        JButton startButton = groupButton.getStartBtn(),
+                creditButton = groupButton.getCreditBtn(),
+                exitButton = groupButton.getExitBtn();
+
+        startButton.setActionCommand(StartLogoController.START_BUTTON_ACTION_COMMAND);
+        startButton.addActionListener(startLogoController);
 
         creditButton.setActionCommand(StartLogoController.CREDIT_BUTTON_ACTION_COMMAND);
         creditButton.addActionListener(startLogoController);

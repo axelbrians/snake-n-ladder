@@ -1,9 +1,6 @@
 package org.familia.client.views.components;
 
-import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.components.button.DefaultWoodButton;
-import org.familia.client.views.layouts.implementations.StartGameLayout;
-import org.familia.client.views.templates.StartLogo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +22,10 @@ public class GroupButton extends JLayeredPane {
         add(startBtn, 0, 0);
         add(creditBtn, 0, 0);
         add(exitBtn, 0, 0);
+    }
+
+    public DefaultWoodButton getStartBtn() {
+        return startBtn;
     }
 
     public DefaultWoodButton getCreditBtn() {
