@@ -1,5 +1,6 @@
 package org.familia.client.views.frames;
 
+import org.familia.client.apps.controllers.Controller;
 import org.familia.client.views.components.overlay.ClosableFrame;
 import org.familia.client.views.layouts.HasOverlay;
 import org.familia.client.views.components.overlay.Overlay;
@@ -13,14 +14,16 @@ import java.awt.event.*;
  */
 public class MainFrame extends JFrame {
     private Timer timer;
+    private Controller controller;
     private Layout layout;
 
     /**
      * @param title for the name of Frame
-     * @param layout for layout that will be used
+     * @param controller for layout that will be used
      */
-    public MainFrame(String title, Layout layout) {
-        this.layout = layout;
+    public MainFrame(String title, Controller controller) {
+        this.controller = controller;
+        this.layout = controller.getLayout();
 
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

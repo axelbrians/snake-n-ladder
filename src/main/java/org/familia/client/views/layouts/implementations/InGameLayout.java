@@ -21,15 +21,15 @@ import java.util.concurrent.TimeUnit;
  * Adjust frame size and contents.
  */
 public class InGameLayout extends Layout implements HasOverlay {
-    private GameBoard board;
-    private PlayerBox playerBox;
-    private RollBox rollBox;
-    private ChatBox chatBox;
-    private String activeOverlay;
+    public GameBoard board;
+    public PlayerBox playerBox;
+    public RollBox rollBox;
+    public ChatBox chatBox;
+    public String activeOverlay;
 
-    private String[] players;
-    private final int currPlayerIdx;
-    private ArrayList<Integer> winnerIdx = new ArrayList<>(); // Store won player's index, sorted by win rank.
+    public String[] players;
+    public final int currPlayerIdx;
+    public ArrayList<Integer> winnerIdx = new ArrayList<>(); // Store won player's index, sorted by win rank.
 
     public InGameLayout(String[] players, int currPlayerIdx) throws Exception {
         super();
@@ -58,9 +58,6 @@ public class InGameLayout extends Layout implements HasOverlay {
         add(rollBox, 1, 1);
         add(playerBox, 1, 1);
         add(chatBox, 1, 1);
-//        addOverlayToPane("networkError");
-        playerWin(1);
-        playerBox.next();
     }
 
     /**
