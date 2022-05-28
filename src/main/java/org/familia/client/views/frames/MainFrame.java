@@ -22,19 +22,13 @@ public class MainFrame extends JFrame {
      * @param controller for layout that will be used
      */
     public MainFrame(String title, Controller controller) {
-        this.controller = controller;
-        this.layout = controller.getLayout();
-
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLayout(null);
         addClosePrompt(this);
 
-        setContentPane(layout);
-        if (layout instanceof HasOverlay) {
-            setCloseFrameAction((HasOverlay) layout);
-        }
+        setController(controller);
 
         pack();
         setLocationRelativeTo(null);
@@ -54,6 +48,21 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+        this.layout = controller.getLayout();
+
+        if (getContentPane() != null) {
+            getContentPane().removeAll();
+        }
+        setContentPane(layout);
+        if (layout instanceof HasOverlay) {
+            setCloseFrameAction((HasOverlay) layout);
+        }
+        getContentPane().revalidate();
+        getContentPane().repaint();
     }
 
     private void setCloseFrameAction(HasOverlay layout) {

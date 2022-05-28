@@ -32,14 +32,12 @@ public class StartLogoController implements ActionListener {
 
     private void startButtonAction() {
         StartGameLayout startGameLayout = (StartGameLayout) ComponentProvider.getGameLayoutAncestor(startLogo);
-
         startGameLayout.getEnterUsername().setVisible(true);
         startGameLayout.getStartLogo().setVisible(false);
     }
 
     private void creditButtonAction() {
         StartGameLayout startGameLayout = (StartGameLayout) ComponentProvider.getGameLayoutAncestor(startLogo);
-
         startGameLayout.getCreditTemplate().setVisible(true);
         startGameLayout.getStartLogo().setVisible(false);
     }
