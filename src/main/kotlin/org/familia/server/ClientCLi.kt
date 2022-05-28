@@ -16,10 +16,10 @@ import java.net.Socket
 import kotlin.system.exitProcess
 
 fun main() {
-    val socket = Socket("localhost", 6969)
+    val socket = Socket("localhost", port)
     val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    println("= = = Connected to localhost:6969 = = =")
+    println("= = = Connected to localhost:$port = = =")
 
     val objectOutput = ObjectOutputStream(socket.getOutputStream())
     val objectInput = ObjectInputStream(socket.getInputStream())
@@ -60,15 +60,27 @@ fun main() {
 
     while (true) {
         val matching = readln()
-        when (matching) {
-            "/roll 1" -> {
-                println("Rolling dice...")
-                objectOutput.writeObject(
-                    Request(
-                        RollDiceRequest(1)
-                    )
+
+        if (matching.contains("/roll ")) {
+            val diceRoll = matching.substringAfter("/roll ", "1").toInt()
+            println("Rolling dice...")
+            objectOutput.writeObject(
+                Request(
+                    RollDiceRequest(diceRoll)
                 )
-            }
+            )
+            continue
+        }
+
+        when (matching) {
+//            "/roll 1" -> {
+//                println("Rolling dice...")
+//                objectOutput.writeObject(
+//                    Request(
+//                        RollDiceRequest(1)
+//                    )
+//                )
+//            }
             "/match 1" -> {
                 println("Entering match queue for 2 player")
                 val match = Match(
