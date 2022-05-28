@@ -9,22 +9,22 @@ import java.awt.event.ActionListener;
 
 public class RollSlider extends JPanel {
     private final int width;
-    private final int height;
     private final int gap = 9;
     private final int sliderWidth = 6;
     private final int sliderHeight = 59;
+    private final int[] xSection;
 
     // Animation variable
-    private int diff = 5;
+    private int diff = 20;
     private int sliderX;
     private boolean isSliding;
     private Timer timer;
 
     public RollSlider(int x, int y, int width, int height) {
         this.width = width;
-        this.height = height;
         sliderX = (width - sliderWidth)/ 2;
         isSliding = false;
+        xSection = new int[] { 124, 63, 0 };
 
         setOpaque(false);
         setBounds(x, y - gap, width, height + gap*2);
@@ -45,6 +45,11 @@ public class RollSlider extends JPanel {
             sliderX += diff;
             if (sliderX <= 0 || sliderX >= rightBorder) {
                 diff *= -1;
+                if (sliderX < 0) {
+                    sliderX = 0;
+                } else if (sliderX > rightBorder) {
+                    sliderX = rightBorder;
+                }
             }
             pane.repaint();
         });
@@ -58,5 +63,21 @@ public class RollSlider extends JPanel {
         }
         timer.start();
         isSliding = true;
+    }
+
+    /**
+     * Return roll section based on current slider x position.
+     *
+     * @return int
+     */
+    public int getSection() {
+        int section  = 2;
+        for (int x : xSection) {
+            if (sliderX >= x) {
+                break;
+            }
+            section--;
+        }
+        return section;
     }
 }

@@ -41,9 +41,16 @@ public class RollBox extends JLayeredPane {
     private void setClickAction() {
         rollButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
                 rollSlider.slide();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                rollSlider.slide();
+                System.out.println(rollSlider.getSection());
             }
         });
     }

@@ -20,7 +20,7 @@ public class Main {
                 InGameController inGameController = new InGameController();
                 StartGameController startGameController = new StartGameController();
 
-                new MainFrame("Snake And Ladder", startGameController);
+                new MainFrame("Snake And Ladder", inGameController);
             } catch (Exception e) {
                 e.printStackTrace();
             }
