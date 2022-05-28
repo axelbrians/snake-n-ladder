@@ -30,6 +30,10 @@ public class RollBox extends JLayeredPane {
         setClickAction();
     }
 
+    public void resetRollSlider() {
+        rollSlider.resetSlider();
+    }
+
     public void disableRollBox() {
         rollButton.setIsActive(false);
     }
@@ -50,6 +54,7 @@ public class RollBox extends JLayeredPane {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 rollSlider.slide();
+                // TODO:: Send roll section to server.
                 System.out.println(rollSlider.getSection());
             }
         });

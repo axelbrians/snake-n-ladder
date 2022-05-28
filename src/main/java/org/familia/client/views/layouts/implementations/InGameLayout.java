@@ -25,7 +25,7 @@ public class InGameLayout extends Layout implements HasOverlay {
     public PlayerBox playerBox;
     public RollBox rollBox;
     public ChatBox chatBox;
-    public String activeOverlay;
+    public Overlay activeOverlay;
 
     public String[] players;
     public final int currPlayerIdx;
@@ -38,7 +38,6 @@ public class InGameLayout extends Layout implements HasOverlay {
         }
         this.players = players;
         this.currPlayerIdx = currPlayerIdx;
-        this.activeOverlay = "";
 
         overlays.put("dice", new DiceOverlay());
         overlays.put("loading", new LoadingOverlay());
@@ -73,9 +72,9 @@ public class InGameLayout extends Layout implements HasOverlay {
         winnerIdx.add(playerIdx);
         playerBox.addWonPlayer(playerIdx);
 
-        String name = "win";
-        ((WinOverlay) getOverlay(name, activeOverlay)).setWinner(players[playerIdx]);
-        addOverlayToPane("win");
+        WinOverlay winOverlay = (WinOverlay) getOverlay("win");
+        winOverlay.setWinner(players[playerIdx]);
+        addOverlayToPane(winOverlay);
 
         // TODO:: Remove overlay after a delay and redirect winning player to main menu.
         removeOverlayFromPane();
@@ -84,12 +83,12 @@ public class InGameLayout extends Layout implements HasOverlay {
     /**
      * Add overlay with animation.
      *
-     * @param name
+     * @param overlay
      */
-    public void addOverlayToPane(String name) {
-        Overlay overlay = getOverlay(name, activeOverlay);
+    @Override
+    public void addOverlayToPane(Overlay overlay) {
         overlay.addToPane(this, 2, 2);
-        activeOverlay = name;
+        activeOverlay = overlay;
 
         chatBox.disableChatbox();
         rollBox.disableRollBox();
@@ -98,11 +97,15 @@ public class InGameLayout extends Layout implements HasOverlay {
     /**
      * Add overlay listener to remove overlay with animation.
      */
+    @Override
     public void removeOverlayFromPane() {
-        if (Objects.equals(activeOverlay, "") || Objects.equals(activeOverlay, "networkError")) {
+        if (Objects.equals(activeOverlay, null)
+            || Objects.equals(activeOverlay, overlays.get("networkError"))
+        ) {
             return;
         }
-        overlays.get(activeOverlay).removeFromPane(this);
+        activeOverlay.removeFromPane(this);
+        activeOverlay = null;
 
         chatBox.enableChatbox();
         rollBox.enableRollBox();

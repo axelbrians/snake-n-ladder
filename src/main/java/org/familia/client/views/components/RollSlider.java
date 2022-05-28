@@ -12,6 +12,7 @@ public class RollSlider extends JPanel {
     private final int gap = 9;
     private final int sliderWidth = 6;
     private final int sliderHeight = 59;
+    private final int sliderInitX;
     private final int[] xSection;
 
     // Animation variable
@@ -22,7 +23,8 @@ public class RollSlider extends JPanel {
 
     public RollSlider(int x, int y, int width, int height) {
         this.width = width;
-        sliderX = (width - sliderWidth)/ 2;
+        sliderInitX = (width - sliderWidth)/ 2;
+        sliderX = sliderInitX;
         isSliding = false;
         xSection = new int[] { 124, 63, 0 };
 
@@ -79,5 +81,9 @@ public class RollSlider extends JPanel {
             section--;
         }
         return section;
+    }
+
+    public void resetSlider() {
+        this.sliderX = sliderInitX;
     }
 }
