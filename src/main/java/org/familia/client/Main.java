@@ -12,6 +12,7 @@ import javax.swing.*;
 public class Main {
     public static final int WIDTH = 960;
     public static final int HEIGHT = 720;
+    public static final int DELAY = 25; // Repaint in ms
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -19,7 +20,7 @@ public class Main {
                 InGameController inGameController = new InGameController();
                 StartGameController startGameController = new StartGameController();
 
-                new MainFrame("Snake And Ladder", startGameController);
+                new MainFrame("Snake And Ladder", inGameController);
             } catch (Exception e) {
                 e.printStackTrace();
             }

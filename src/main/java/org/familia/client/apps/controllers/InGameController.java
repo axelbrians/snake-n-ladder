@@ -10,8 +10,8 @@ public class InGameController extends Controller {
 
     public InGameController() throws Exception {
         layout = new InGameLayout(players, currPlayerIdx);
-        layout.playerWin(1);
-        layout.playerBox.next();
+//        layout.playerWin(1);
+//        layout.playerBox.next();
 //        layout.addOverlayToPane("networkError");
     }
 

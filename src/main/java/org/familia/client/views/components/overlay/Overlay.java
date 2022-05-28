@@ -1,5 +1,7 @@
 package org.familia.client.views.components.overlay;
 
+import org.familia.client.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +12,6 @@ public class Overlay extends JLayeredPane {
     protected final int height;
     protected final float alpha;
 
-    protected final int delay = 25; // in ms
     protected final float fadeDuration = 1.5f; // in s
     protected float diff;
     protected float currAlpha;
@@ -22,7 +23,7 @@ public class Overlay extends JLayeredPane {
         this.height = height;
         this.alpha = alpha;
         this.currAlpha = alpha;
-        diff = (alpha / fadeDuration) / delay;
+        diff = (alpha / fadeDuration) / Main.DELAY;
 
         setLayout(null);
         setBorder(null);
@@ -49,15 +50,12 @@ public class Overlay extends JLayeredPane {
      * @param index
      */
     public void addToPane(JLayeredPane pane, int constraint, int index) {
-        Timer timer = new Timer(delay, null);
-        timer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                currAlpha += diff;
-                repaint();
-                if (currAlpha >= alpha) {
-                    timer.stop();
-                }
+        Timer timer = new Timer(Main.DELAY, null);
+        timer.addActionListener(ae -> {
+            currAlpha += diff;
+            repaint();
+            if (currAlpha >= alpha) {
+                timer.stop();
             }
         });
         currAlpha = 0;
@@ -72,7 +70,7 @@ public class Overlay extends JLayeredPane {
      */
     public void removeFromPane(JLayeredPane pane) {
         Overlay overlay = this;
-        Timer timer = new Timer(delay, null);
+        Timer timer = new Timer(Main.DELAY, null);
 
         timer.addActionListener(new ActionListener() {
             @Override

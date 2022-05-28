@@ -6,6 +6,8 @@ import org.familia.client.views.components.RollSlider;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class RollBox extends JLayeredPane {
@@ -19,11 +21,13 @@ public class RollBox extends JLayeredPane {
 
         background = new Background(width, height, "RollBox.png");
         rollButton = new RollButton(94, 123, 86);
-        rollSlider = new RollSlider(132, 38, 6, 59);
+        rollSlider = new RollSlider(47, 47, 187, 40);
 
         add(background, 0, 0);
         add(rollButton, 1, 1);
-        add(rollSlider, 1, 1);
+        add(rollSlider, 2, 2);
+
+        setClickAction();
     }
 
     public void disableRollBox() {
@@ -32,5 +36,15 @@ public class RollBox extends JLayeredPane {
 
     public void enableRollBox() {
         rollButton.setIsActive(true);
+    }
+
+    private void setClickAction() {
+        rollButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                rollSlider.slide();
+            }
+        });
     }
 }
