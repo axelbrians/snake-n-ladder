@@ -14,8 +14,8 @@ public class StartGameLayout extends Layout {
         super();
 
         background = new Background(Main.WIDTH, Main.HEIGHT, "ForestBg.png");
-        startLogo = new StartLogo(253, 206, 454, 374, this);
-        creditTemplate = new CreditTemplate(257, 111, 445, 517, this);
+        startLogo = new StartLogo(253, 206, 454, 374);
+        creditTemplate = new CreditTemplate(257, 111, 445, 517);
 
         creditTemplate.setVisible(false);
 

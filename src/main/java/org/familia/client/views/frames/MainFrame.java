@@ -45,13 +45,13 @@ public class MainFrame extends JFrame {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            int choose = JOptionPane.showConfirmDialog(frame, "Do you really want to exit the application?",
-                    "Confirm Close", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if(choose == JOptionPane.YES_OPTION) {
-                e.getWindow().dispose();
-            } else {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            }
+                int choose = JOptionPane.showConfirmDialog(frame, "Do you really want to exit the application?",
+                        "Confirm Close", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if(choose == JOptionPane.YES_OPTION) {
+                    e.getWindow().dispose();
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
             }
         });
     }
