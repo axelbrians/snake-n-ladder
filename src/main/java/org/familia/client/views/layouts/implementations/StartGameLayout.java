@@ -3,8 +3,9 @@ package org.familia.client.views.layouts.implementations;
 import org.familia.client.Main;
 import org.familia.client.views.components.Background;
 import org.familia.client.views.layouts.Layout;
-import org.familia.client.views.templates.CreditTemplate;
-import org.familia.client.views.templates.StartLogo;
+import org.familia.client.views.templates.StartGame.EnterUsername;
+import org.familia.client.views.templates.StartGame.StartLogo;
+import org.familia.client.views.templates.StartGame.CreditTemplate;
 
 public class StartGameLayout extends Layout {
     private StartLogo startLogo;
