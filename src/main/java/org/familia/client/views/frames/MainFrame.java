@@ -1,6 +1,6 @@
 package org.familia.client.views.frames;
 
-import org.familia.client.apps.controllers.Controller;
+import org.familia.client.controllers.Controller;
 import org.familia.client.views.components.overlay.ClosableFrame;
 import org.familia.client.views.layouts.HasOverlay;
 import org.familia.client.views.components.overlay.Overlay;

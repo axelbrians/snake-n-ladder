@@ -1,6 +1,6 @@
 package org.familia.client.views.templates.StartGame;
 
-import org.familia.client.controller.StartGame.StartLogoController;
+import org.familia.client.controllers.StartGame.StartLogoController;
 import org.familia.client.views.components.GameLogo;
 import org.familia.client.views.components.GroupButton;
 

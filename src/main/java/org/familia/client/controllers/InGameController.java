@@ -1,6 +1,5 @@
-package org.familia.client.apps.controllers;
+package org.familia.client.controllers;
 
-import org.familia.client.views.components.overlay.DiceOverlay;
 import org.familia.client.views.layouts.Layout;
 import org.familia.client.views.layouts.implementations.InGameLayout;
 

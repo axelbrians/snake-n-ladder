@@ -1,4 +1,4 @@
-package org.familia.client.controller.StartGame;
+package org.familia.client.controllers.StartGame;
 
 import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.frames.MainFrame;

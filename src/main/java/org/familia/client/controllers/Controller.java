@@ -1,4 +1,4 @@
-package org.familia.client.apps.controllers;
+package org.familia.client.controllers;
 
 import org.familia.client.views.layouts.Layout;
 

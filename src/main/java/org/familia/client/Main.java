@@ -1,7 +1,7 @@
 package org.familia.client;
 
-import org.familia.client.apps.controllers.InGameController;
-import org.familia.client.apps.controllers.StartGameController;
+import org.familia.client.controllers.InGameController;
+import org.familia.client.controllers.StartGameController;
 import org.familia.client.views.frames.MainFrame;
 
 import javax.swing.*;

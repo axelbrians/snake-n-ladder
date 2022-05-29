@@ -1,13 +1,12 @@
-package org.familia.client.controller.StartGame;
+package org.familia.client.controllers.StartGame;
 
-import org.familia.client.apps.controllers.InGameController;
+import org.familia.client.controllers.InGameController;
 import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.components.TextField;
 import org.familia.client.views.frames.MainFrame;
 import org.familia.client.views.layouts.implementations.StartGameLayout;
 import org.familia.client.views.templates.StartGame.EnterUsername;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

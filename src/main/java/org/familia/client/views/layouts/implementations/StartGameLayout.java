@@ -1,10 +1,7 @@
 package org.familia.client.views.layouts.implementations;
 
 import org.familia.client.Main;
-import org.familia.client.apps.controllers.InGameController;
-import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.components.Background;
-import org.familia.client.views.frames.MainFrame;
 import org.familia.client.views.layouts.Layout;
 import org.familia.client.views.templates.StartGame.EnterUsername;
 import org.familia.client.views.templates.StartGame.StartLogo;

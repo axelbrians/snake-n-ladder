@@ -1,6 +1,6 @@
 package org.familia.client.views.templates.StartGame;
 
-import org.familia.client.controller.StartGame.EnterUsernameController;
+import org.familia.client.controllers.StartGame.EnterUsernameController;
 import org.familia.client.views.components.Background;
 import org.familia.client.views.components.TextField;
 import org.familia.client.views.components.button.DefaultWoodButton;
