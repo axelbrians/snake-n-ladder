@@ -43,7 +43,7 @@ public class InGameLayout extends Layout implements HasOverlay {
         overlays.put("win", new WinOverlay(this));
 
         background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
-        board = new GameBoard(30, 52, 617);
+        board = new GameBoard(30, 52, 617, players.length);
         playerBox = new PlayerBox(664, 52, 277, 131, players);
         rollBox = new RollBox(664, 218, 277, 230);
         chatBox = new ChatBox(664, 479, 277, 190);

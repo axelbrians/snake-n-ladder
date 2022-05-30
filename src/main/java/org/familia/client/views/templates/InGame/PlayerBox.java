@@ -1,5 +1,6 @@
 package org.familia.client.views.templates.InGame;
 
+import org.familia.client.helpers.Asset;
 import org.familia.client.views.components.Background;
 import org.familia.client.views.components.PlayerIcon;
 
@@ -12,19 +13,6 @@ public class PlayerBox extends JLayeredPane {
 
     private int xPos; // Current layer icon coordinate in x axis.
     private final int xAdder; // Player icon gap in x axis.
-
-    /**
-     * Player icon path.
-     * Naming format:
-     *  <color>.png = base image
-     *  <color>White.png = image for active player
-     */
-    private final String[] iconPath = {
-            "players/Blue",
-            "players/Green",
-            "players/Pink",
-            "players/Yellow",
-    };
     private final String[] players; // Contain player name sorted by turn order.
     private final int playerCount;
 
@@ -51,7 +39,7 @@ public class PlayerBox extends JLayeredPane {
         // Init player icons
         playerIcons = new PlayerIcon[playerCount];
         for (int i = 0; i < playerCount; i++) {
-            playerIcons[i] = new PlayerIcon(xPos, 49, iconPath[i], players[i]);
+            playerIcons[i] = new PlayerIcon(xPos, 49, Asset.ICONPATH[i], players[i]);
             add(playerIcons[i], 1, 1);
             xPos += xAdder;
         }
