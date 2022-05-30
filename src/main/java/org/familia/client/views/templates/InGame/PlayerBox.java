@@ -1,4 +1,4 @@
-package org.familia.client.views.templates;
+package org.familia.client.views.templates.InGame;
 
 import org.familia.client.views.components.Background;
 import org.familia.client.views.components.PlayerIcon;

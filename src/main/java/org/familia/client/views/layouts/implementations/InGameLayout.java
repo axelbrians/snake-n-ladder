@@ -4,18 +4,16 @@ import org.familia.client.Main;
 import org.familia.client.views.components.overlay.*;
 import org.familia.client.views.layouts.HasOverlay;
 import org.familia.client.views.layouts.Layout;
-import org.familia.client.views.templates.ChatBox;
-import org.familia.client.views.templates.GameBoard;
-import org.familia.client.views.templates.PlayerBox;
-import org.familia.client.views.templates.RollBox;
+import org.familia.client.views.templates.InGame.ChatBox;
+import org.familia.client.views.templates.InGame.GameBoard;
+import org.familia.client.views.templates.InGame.PlayerBox;
+import org.familia.client.views.templates.InGame.RollBox;
 import org.familia.client.views.components.Background;
 
-import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Adjust frame size and contents.
