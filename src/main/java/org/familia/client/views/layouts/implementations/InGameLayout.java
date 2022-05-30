@@ -37,18 +37,16 @@ public class InGameLayout extends Layout implements HasOverlay {
         this.players = players;
         this.currPlayerIdx = currPlayerIdx;
 
-        overlays.put("dice", new DiceOverlay());
-        overlays.put("loading", new LoadingOverlay());
-        overlays.put("networkError", new NetworkErrorOverlay());
-        overlays.put("win", new WinOverlay());
+        overlays.put("dice", new DiceOverlay(this));
+        overlays.put("loading", new LoadingOverlay(this));
+        overlays.put("networkError", new NetworkErrorOverlay(this));
+        overlays.put("win", new WinOverlay(this));
 
         background = new Background(Main.WIDTH, Main.HEIGHT, "GrassBg.jpg");
         board = new GameBoard(30, 52, 617);
         playerBox = new PlayerBox(664, 52, 277, 131, players);
         rollBox = new RollBox(664, 218, 277, 230);
         chatBox = new ChatBox(664, 479, 277, 190);
-
-        removeOverlayListener();
 
         add(background, 0, 0);
         add(board, 1, 1);
@@ -71,11 +69,8 @@ public class InGameLayout extends Layout implements HasOverlay {
         playerBox.addWonPlayer(playerIdx);
 
         WinOverlay winOverlay = (WinOverlay) getOverlay("win");
-        winOverlay.setWinner(players[playerIdx]);
+        winOverlay.setWinner(players[playerIdx], (playerIdx == currPlayerIdx));
         addOverlayToPane(winOverlay);
-
-        // TODO:: Remove overlay after a delay and redirect winning player to main menu.
-        removeOverlayFromPane();
     }
 
     /**
@@ -85,11 +80,12 @@ public class InGameLayout extends Layout implements HasOverlay {
      */
     @Override
     public void addOverlayToPane(Overlay overlay) {
-        overlay.addToPane(this, 2, 2);
+        overlay.addToPane(2, 2);
         activeOverlay = overlay;
 
         chatBox.disableChatbox();
         rollBox.disableRollBox();
+
     }
 
     /**
@@ -102,22 +98,12 @@ public class InGameLayout extends Layout implements HasOverlay {
         ) {
             return;
         }
-        activeOverlay.removeFromPane(this);
+        activeOverlay.removeFromPane();
         activeOverlay = null;
 
         chatBox.enableChatbox();
         rollBox.enableRollBox();
 
         repaint();
-    }
-
-    public void removeOverlayListener()  {
-        addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                removeOverlayFromPane();
-            }
-        });
     }
 }

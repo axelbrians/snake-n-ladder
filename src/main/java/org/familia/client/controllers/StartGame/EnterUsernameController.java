@@ -1,5 +1,6 @@
 package org.familia.client.controllers.StartGame;
 
+import org.familia.client.Main;
 import org.familia.client.controllers.InGameController;
 import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.components.TextField;
@@ -40,7 +41,7 @@ public class EnterUsernameController implements ActionListener {
         // Redirect to in game view.
         MainFrame frame = ComponentProvider.getFrameAncestor(startGameLayout);
         try {
-            frame.setController(new InGameController());
+            frame.setController(Main.inGameController);
         } catch (Exception e) {
             e.printStackTrace();
         }

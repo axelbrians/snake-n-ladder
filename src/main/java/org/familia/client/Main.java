@@ -12,13 +12,15 @@ import javax.swing.*;
 public class Main {
     public static final int WIDTH = 960;
     public static final int HEIGHT = 720;
-    public static final int DELAY = 25; // Repaint in ms
+    public static final int DELAY = 30; // Repaint delay in ms
+    public static InGameController inGameController;
+    public static StartGameController startGameController;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                InGameController inGameController = new InGameController();
-                StartGameController startGameController = new StartGameController();
+                inGameController = new InGameController();
+                startGameController = new StartGameController();
 
                 new MainFrame("Snake And Ladder", inGameController);
             } catch (Exception e) {

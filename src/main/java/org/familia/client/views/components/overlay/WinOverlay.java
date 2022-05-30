@@ -1,36 +1,44 @@
 package org.familia.client.views.components.overlay;
 
 import org.familia.client.Main;
+import org.familia.client.providers.ComponentProvider;
 import org.familia.client.views.components.Background;
+import org.familia.client.views.frames.MainFrame;
+import org.familia.client.views.layouts.HasOverlay;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.util.HashMap;
 
 public class WinOverlay extends Overlay {
+    private final double delay = 2; // Delay between fade-in and exit in seconds.
     private final String title = "Winner";
     private final Background trophy;
 
     private int rank;
     private String playerName;
+    private boolean currPlayer;
 
-    public WinOverlay() throws IOException {
-        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+    public WinOverlay(JLayeredPane pane) throws IOException {
+        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f, pane);
     }
 
-    public WinOverlay(int x, int y, int width, int height, float alpha) throws IOException {
-        super(x, y, width, height, alpha);
+    public WinOverlay(int x, int y, int width, int height, float alpha, JLayeredPane pane) throws IOException {
+        super(x, y, width, height, alpha, pane);
         this.rank = 0;
         this.playerName = "";
+        this.currPlayer = false; // if true, this overlay will auto-redirect user to main menu.
 
         trophy = new Background(396, 261, 170, 170, "Trophy.png");
         add(trophy);
     }
 
-    public void setWinner(String playerName) {
+    public void setWinner(String playerName, boolean currPlayer) {
         this.rank++;
         this.playerName = playerName;
+        this.currPlayer = currPlayer;
     }
 
     @Override
@@ -70,5 +78,31 @@ public class WinOverlay extends Overlay {
         g2d.drawString(rank, x, y);
 
         g2d.dispose();
+    }
+
+    protected void setFadeInAction() {
+        fadeIn.addActionListener(ae -> {
+            currAlpha += diff;
+            repaint();
+            if (currAlpha >= alpha) {
+                fadeIn.stop();
+                try {
+                    Thread.sleep((long) delay*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!currPlayer) {
+                    ((HasOverlay) ComponentProvider.getGameLayoutAncestor(this)).removeOverlayFromPane();
+                    return;
+                }
+                // Redirect to in game view.
+                MainFrame frame = ComponentProvider.getFrameAncestor(this);
+                try {
+                    frame.setController(Main.startGameController);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
