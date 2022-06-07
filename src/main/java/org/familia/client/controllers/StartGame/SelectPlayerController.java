@@ -1,7 +1,11 @@
 package org.familia.client.controllers.StartGame;
 
 import org.familia.client.Main;
+import org.familia.client.apps.networks.request.user.User;
+import org.familia.client.networks.SocketConnection;
 import org.familia.client.providers.ComponentProvider;
+import org.familia.client.providers.DataProvider;
+import org.familia.client.providers.constants.DataProviderConstants;
 import org.familia.client.views.frames.MainFrame;
 import org.familia.client.views.layouts.implementations.StartGameLayout;
 import org.familia.client.views.templates.StartGame.SelectPlayer;
@@ -38,14 +42,26 @@ public class SelectPlayerController implements ActionListener {
     }
 
     private void getToInGame(int countPlayer) {
+        MainFrame mainFrame = ComponentProvider.getFrameAncestor(selectPlayer);
+        DataProvider dataProvider = mainFrame.dataProvider;
+        SocketConnection socketConnection = mainFrame.socketConnection;
+        if (!dataProvider.isAvailableDataObject(DataProviderConstants.USER_REQUEST)) {
+            return;
+        }
+
+        while (socketConnection == null) {
+            ComponentProvider.getFrameAncestor(selectPlayer).setConnection();
+            return;
+        }
+
+        User user = (User) dataProvider.getDataObject(DataProviderConstants.USER_REQUEST);
+        System.out.println("Count: " + countPlayer + " -> " + user.username);
         StartGameLayout startGameLayout = (StartGameLayout) ComponentProvider.getGameLayoutAncestor(selectPlayer);
         selectPlayer.setVisible(false);
         startGameLayout.getStartLogo().setVisible(true);
 
-        // Redirect to in game view.
-        MainFrame frame = ComponentProvider.getFrameAncestor(startGameLayout);
         try {
-            frame.setController(Main.inGameController);
+            mainFrame.setController(Main.inGameController);
         } catch (Exception e) {
             e.printStackTrace();
         }
