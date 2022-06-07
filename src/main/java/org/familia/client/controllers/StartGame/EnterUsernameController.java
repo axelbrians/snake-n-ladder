@@ -1,6 +1,9 @@
 package org.familia.client.controllers.StartGame;
 
+import org.familia.client.apps.networks.request.user.User;
 import org.familia.client.providers.ComponentProvider;
+import org.familia.client.providers.DataProvider;
+import org.familia.client.providers.constants.DataProviderConstants;
 import org.familia.client.views.components.TextField;
 import org.familia.client.views.layouts.implementations.StartGameLayout;
 import org.familia.client.views.templates.StartGame.EnterUsername;
@@ -31,10 +34,18 @@ public class EnterUsernameController implements ActionListener {
         if (username.equals(BLANK)) {
             return;
         }
-        System.out.println("Username:" + username);
+
+        // for create new value
+        createNewUser(username);
 
         StartGameLayout startGameLayout = (StartGameLayout) ComponentProvider.getGameLayoutAncestor(enterUsername);
-        enterUsername.setVisible(false);
+        enterUsername.setVisible(false);;
         startGameLayout.getSelectPlayer().setVisible(true);
+    }
+
+    private void createNewUser(String username) {
+        DataProvider dataProvider = ComponentProvider.getDataProvider(enterUsername);
+        User user = new User(username);
+        dataProvider.addDataObject(DataProviderConstants.USER_REQUEST, user);
     }
 }
