@@ -21,7 +21,7 @@ class MatchServer(
     private var currentUser = ""
     private var isBrake = false
 
-    suspend fun startMatch() {
+    suspend fun startMatch() = try {
         startThread()
         matchLoop@ while (true) {
             for ((username, position) in boardResponse.players) {
@@ -49,11 +49,13 @@ class MatchServer(
 
                 while (true) {
                     if (!isBrake) break
-                    delay(200)
+                    delay(500)
                 }
             }
         }
         endMatch()
+    } catch (e: Exception) {
+        println(e.stackTrace.toString())
     }
 
     private fun updatePlayerPosition(username: String, diceRoll: Int) {
@@ -71,6 +73,20 @@ class MatchServer(
         }
 
         println("$username current position: $position")
+
+        boardResponse.ladders.forEach {
+            if (it.first == position) {
+                position = it.second
+                println("$username climbing ladder from ${it.first} to ${it.second}")
+            }
+        }
+
+        boardResponse.snakes.forEach {
+            if (it.first == position) {
+                position = it.second
+                println("$username bitten by snake from ${it.first} to ${it.second}")
+            }
+        }
 
         boardResponse.players = boardResponse.players.map { // Update players data with new List<*>
             if (it.first == username) {
