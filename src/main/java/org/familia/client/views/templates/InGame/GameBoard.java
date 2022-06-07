@@ -24,15 +24,6 @@ public class GameBoard extends JLayeredPane {
             playerPiece[i] = new PlayerPiece(i, Asset.ICONPATH[i], 30, 550, size);
             add(playerPiece[i], 1, 1);
         }
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            movePlayerTo(1, 5);
-        }).start();
     }
 
     /**
@@ -41,7 +32,7 @@ public class GameBoard extends JLayeredPane {
      * @param playerIdx
      * @param tile
      */
-    private void movePlayerTo(int playerIdx, int tile) {
+    public void movePlayerTo(int playerIdx, int tile) {
         int currTile = playerPiece[playerIdx].getTileNumber();
         while (currTile < tile) {
             currTile++;

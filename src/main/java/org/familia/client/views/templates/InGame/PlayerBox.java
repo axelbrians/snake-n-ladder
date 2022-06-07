@@ -61,6 +61,7 @@ public class PlayerBox extends JLayeredPane {
             }
         } while (winnerIdx.contains(currPlayerIdx));
         playerIcons[currPlayerIdx].setIsActive(true);
+        repaint();
     }
 
     /**
