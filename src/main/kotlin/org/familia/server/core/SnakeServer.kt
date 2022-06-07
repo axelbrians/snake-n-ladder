@@ -114,6 +114,21 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
         }
     }
 
+    private val defaultLadders = listOf(
+        Pair(19, 66),
+        Pair(32, 53),
+        Pair(43, 62),
+        Pair(65, 99),
+        Pair(73, 91)
+    )
+
+    private val defaultSnakes = listOf(
+        Pair(26, 6),
+        Pair(46, 12),
+        Pair(74, 52),
+        Pair(84, 75)
+    )
+
     private fun createMatch(matchType: MatchType) {
         val playerCount = if (matchType == MatchType.TwoPlayer) 2 else 4
         val tempRoomQueue = mutableListOf<String>()
@@ -123,7 +138,10 @@ class SnakeServer: ClientConnectionContract, MatchQueueContract {
         }
 
         val boardResponse = BoardResponse(
-            tempRoomQueue.shuffled().map { Pair(it, 0) })
+            tempRoomQueue.shuffled().map { Pair(it, 0) },
+            defaultLadders,
+            defaultSnakes
+        )
         val playingClients = mutableListOf<SnakeClient>()
 
         logger.logMatchedPlayer(tempRoomQueue)
