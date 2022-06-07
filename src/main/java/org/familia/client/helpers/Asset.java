@@ -7,7 +7,20 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Asset {
-    public static String ASSET_PATH = "src/main/java/org/familia/client/assets/";
+    public static final String ASSET_PATH = "src/main/java/org/familia/client/assets/";
+
+    /**
+     * Player icon path.
+     * Naming format:
+     *  <color>.png = base image
+     *  <color>White.png = image for active player
+     */
+    public static final String[] ICONPATH = {
+            "players/Blue",
+            "players/Green",
+            "players/Pink",
+            "players/Yellow",
+    };
 
     public static File getFile(String type, String name) {
         return new File(ASSET_PATH + type + "/" + name);

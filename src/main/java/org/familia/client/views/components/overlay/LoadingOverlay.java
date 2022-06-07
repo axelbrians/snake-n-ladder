@@ -3,20 +3,20 @@ package org.familia.client.views.components.overlay;
 import org.familia.client.Main;
 import org.familia.client.helpers.TextWriter;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.font.TextAttribute;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class LoadingOverlay extends Overlay {
     private final String text = "Loading...";
 
-    public LoadingOverlay() {
-        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+    public LoadingOverlay(JLayeredPane pane) {
+        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f, pane);
     }
 
-    public LoadingOverlay(int x, int y, int width, int height, float alpha) {
-        super(x, y, width, height, alpha);
+    public LoadingOverlay(int x, int y, int width, int height, float alpha, JLayeredPane pane) {
+        super(x, y, width, height, alpha, pane);
     }
 
     @Override

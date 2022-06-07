@@ -13,25 +13,24 @@ import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class NetworkErrorOverlay extends Overlay {
+public class NetworkErrorOverlay extends Overlay implements ClosableFrame {
     private final String text = "Network Error";
     private WoodButton exitBtn;
 
-    public NetworkErrorOverlay() throws IOException {
-        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f);
+    public NetworkErrorOverlay(JLayeredPane pane) throws IOException {
+        this(0, 0, Main.WIDTH, Main.HEIGHT, 0.75f, pane);
     }
 
-    public NetworkErrorOverlay(int x, int y, int width, int height, float alpha) throws IOException {
-        super(x, y, width, height, alpha);
-
+    public NetworkErrorOverlay(int x, int y, int width, int height, float alpha, JLayeredPane pane) throws IOException {
+        super(x, y, width, height, alpha, pane);
         exitBtn = new WoodButton(403, 406, 105, 42, "Exit");
         add(exitBtn, 1, 1);
     }
 
-    public void setExitAction(JFrame frame) {
+    public void setCloseFrameAction(JFrame frame) {
         exitBtn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
     }

@@ -1,34 +1,42 @@
 package org.familia.client.views.components.overlay;
 
+import org.familia.client.Main;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Overlay extends JLayeredPane {
+    protected final JLayeredPane pane;
     protected final int width;
     protected final int height;
     protected final float alpha;
+    protected final Timer fadeIn;
+    protected final Timer fadeOut;
 
-    protected final int delay = 25; // in ms
     protected final float fadeDuration = 1.5f; // in s
     protected float diff;
     protected float currAlpha;
 
-    public Overlay(int x, int y, int width, int height, float alpha) {
+    public Overlay(int x, int y, int width, int height, float alpha, JLayeredPane pane) {
         super();
-
+        this.pane = pane;
         this.width = width;
         this.height = height;
         this.alpha = alpha;
         this.currAlpha = alpha;
-        diff = (alpha / fadeDuration) / delay;
+        diff = (alpha / fadeDuration) / Main.DELAY;
 
         setLayout(null);
         setBorder(null);
         setOpaque(false);
         setBounds(x, y, width, height);
         setPreferredSize(new Dimension(width, height));
+
+        // Set timer
+        fadeIn = new Timer(Main.DELAY, null);
+        fadeOut = new Timer(Main.DELAY, null);
+        setFadeInAction();
+        setFadeOutAction();
     }
 
     @Override
@@ -41,51 +49,44 @@ public class Overlay extends JLayeredPane {
         g2d.fillRect(0, 0, width, height);
     }
 
+    protected void setFadeInAction() {
+        fadeIn.addActionListener(ae -> {
+            currAlpha += diff;
+            repaint();
+            if (currAlpha >= alpha) {
+                fadeIn.stop();
+            }
+        });
+    }
+
+    protected void setFadeOutAction() {
+        fadeOut.addActionListener(ae -> {
+            currAlpha -= diff;
+            repaint();
+            if (currAlpha <= 0) {
+                pane.remove(this);
+                fadeOut.stop();
+            }
+        });
+    }
+
     /**
      * Add to pane with fade-in animation.
      *
-     * @param pane
      * @param constraint
      * @param index
      */
-    public void addToPane(JLayeredPane pane, int constraint, int index) {
-        Timer timer = new Timer(delay, null);
-        timer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                currAlpha += diff;
-                repaint();
-                if (currAlpha >= alpha) {
-                    timer.stop();
-                }
-            }
-        });
+    public void addToPane(int constraint, int index) {
         currAlpha = 0;
         pane.add(this, constraint, index);
-        timer.start();
+        fadeIn.start();
     }
 
     /**
      * Remove from pane with fade-out animation.
-     *
-     * @param pane
      */
-    public void removeFromPane(JLayeredPane pane) {
-        Overlay overlay = this;
-        Timer timer = new Timer(delay, null);
-
-        timer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                currAlpha -= diff;
-                repaint();
-                if (currAlpha <= 0) {
-                    pane.remove(overlay);
-                    timer.stop();
-                }
-            }
-        });
+    public void removeFromPane() {
         currAlpha = alpha;
-        timer.start();
+        fadeOut.start();
     }
 }

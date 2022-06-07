@@ -1,8 +1,10 @@
 package org.familia.client.views.frames;
 
-import org.familia.client.views.components.overlay.NetworkErrorOverlay;
-import org.familia.client.views.layouts.GameLayout;
-import org.familia.client.views.layouts.implementations.InGameLayout;
+import org.familia.client.controllers.Controller;
+import org.familia.client.views.components.overlay.ClosableFrame;
+import org.familia.client.views.layouts.HasOverlay;
+import org.familia.client.views.components.overlay.Overlay;
+import org.familia.client.views.layouts.Layout;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -12,23 +14,21 @@ import java.awt.event.*;
  */
 public class MainFrame extends JFrame {
     private Timer timer;
-
+    private Controller controller;
+    private Layout layout;
 
     /**
      * @param title for the name of Frame
-     * @param layout for layout that will be used
+     * @param controller for layout that will be used
      */
-    public MainFrame(String title, GameLayout layout) {
+    public MainFrame(String title, Controller controller) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLayout(null);
         addClosePrompt(this);
 
-        setContentPane(layout);
-        if (layout.overlays.containsKey("networkError")) {
-            ((NetworkErrorOverlay) layout.overlays.get("networkError")).setExitAction(this);
-        }
+        setController(controller);
 
         pack();
         setLocationRelativeTo(null);
@@ -39,14 +39,38 @@ public class MainFrame extends JFrame {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            int choose = JOptionPane.showConfirmDialog(frame, "Do you really want to exit the application?",
-                    "Confirm Close", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if(choose == JOptionPane.YES_OPTION) {
-                e.getWindow().dispose();
-            } else {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            }
+                int choose = JOptionPane.showConfirmDialog(frame, "Do you really want to exit the application?",
+                        "Confirm Close", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if(choose == JOptionPane.YES_OPTION) {
+                    e.getWindow().dispose();
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
             }
         });
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+        this.layout = controller.getLayout();
+
+        if (getContentPane() != null) {
+            getContentPane().removeAll();
+        }
+        setContentPane(layout);
+        if (layout instanceof HasOverlay) {
+            setCloseFrameAction((HasOverlay) layout);
+        }
+        getContentPane().revalidate();
+        getContentPane().repaint();
+    }
+
+    private void setCloseFrameAction(HasOverlay layout) {
+        for (Overlay overlay: layout.overlays.values()) {
+            if (!(overlay instanceof ClosableFrame)) {
+                continue;
+            }
+            ((ClosableFrame) overlay).setCloseFrameAction(this);
+        }
     }
 }

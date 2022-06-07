@@ -11,6 +11,8 @@ import java.util.HashMap;
 public class PlayerIcon extends JPanel {
     private final Image icon;
     private final Image iconBordered;
+    private final Image iconDark;
+    private Image currIcon;
     private final String playerName;
     private final String printedName;
     private final int iconWidth = 27;
@@ -18,6 +20,7 @@ public class PlayerIcon extends JPanel {
     private final int textAreaWidth = 49;
     private final int textAreaHeight = 18;
     private boolean isActive;
+    private boolean isWinner;
 
     public PlayerIcon(int x, int y, String iconPath, String playerName) throws IOException {
         setOpaque(false);
@@ -29,9 +32,13 @@ public class PlayerIcon extends JPanel {
                 ? playerName.substring(0,5) + "..."
                 : playerName;
         isActive = false;
+        isWinner = false;
 
         icon = Asset.getImage(iconPath + ".png", iconWidth, iconHeight);
         iconBordered = Asset.getImage(iconPath + "White.png", iconWidth, iconHeight);
+        iconDark = Asset.getImage(iconPath + "Dark.png", iconWidth, iconHeight);
+
+        currIcon = icon;
     }
 
     @Override
@@ -40,7 +47,7 @@ public class PlayerIcon extends JPanel {
         writePlayerName(g);
 
         int x = (textAreaWidth - iconWidth)/2;
-        g.drawImage((isActive) ? iconBordered : icon, x, 0, null);
+        g.drawImage(currIcon, x, 0, null);
     }
 
     private void writePlayerName(Graphics g) {
@@ -64,6 +71,19 @@ public class PlayerIcon extends JPanel {
     }
 
     public void setIsActive(boolean isActive) {
+        if (isWinner) {
+            return;
+        }
         this.isActive = isActive;
+        this.currIcon = (isActive) ? iconBordered : icon;
+    }
+
+    public boolean getIsWinner() {
+        return this.isWinner;
+    }
+
+    public void setWinner() {
+        this.isWinner = true;
+        this.currIcon = iconDark;
     }
 }
