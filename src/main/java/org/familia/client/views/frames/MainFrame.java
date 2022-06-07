@@ -1,13 +1,17 @@
 package org.familia.client.views.frames;
 
 import org.familia.client.controllers.Controller;
+import org.familia.client.networks.SocketConnection;
+import org.familia.client.providers.DataProvider;
 import org.familia.client.views.components.overlay.ClosableFrame;
 import org.familia.client.views.layouts.HasOverlay;
 import org.familia.client.views.components.overlay.Overlay;
 import org.familia.client.views.layouts.Layout;
+import org.familia.client.views.layouts.implementations.StartGameLayout;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 /**
  * Construct frame and link it with its layout file.
@@ -16,6 +20,8 @@ public class MainFrame extends JFrame {
     private Timer timer;
     private Controller controller;
     private Layout layout;
+    public DataProvider dataProvider;
+    public SocketConnection socketConnection;
 
     /**
      * @param title for the name of Frame
@@ -29,6 +35,8 @@ public class MainFrame extends JFrame {
         addClosePrompt(this);
 
         setController(controller);
+        setProvider();
+        setConnection();
 
         pack();
         setLocationRelativeTo(null);
@@ -71,6 +79,25 @@ public class MainFrame extends JFrame {
                 continue;
             }
             ((ClosableFrame) overlay).setCloseFrameAction(this);
+        }
+    }
+
+    public void setProvider() {
+        dataProvider = new DataProvider();
+    }
+
+    public void setConnection() {
+        try {
+            socketConnection = new SocketConnection(dataProvider);
+        } catch (Exception exception) {
+            System.out.println("Is " + (socketConnection == null));
+            Layout layout = controller.getLayout();
+            if (layout.getClass() == StartGameLayout.class) {
+                StartGameLayout startGameLayout = (StartGameLayout) layout;
+                startGameLayout.generateAllVisibleFalse();
+                startGameLayout.getNetworkError().setVisible(true);
+            }
+            exception.printStackTrace();
         }
     }
 }

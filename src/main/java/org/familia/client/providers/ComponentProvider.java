@@ -1,5 +1,6 @@
 package org.familia.client.providers;
 
+import org.familia.client.networks.SocketConnection;
 import org.familia.client.views.frames.MainFrame;
 import org.familia.client.views.layouts.Layout;
 
@@ -13,5 +14,13 @@ public class ComponentProvider {
 
     public static Layout getGameLayoutAncestor(Component component) {
         return (Layout) SwingUtilities.getAncestorOfClass(Layout.class, component);
+    }
+
+    public static DataProvider getDataProvider(Component component) {
+        return getFrameAncestor(component).dataProvider;
+    }
+
+    public static SocketConnection getSocketConnection(Component component) {
+        return getFrameAncestor(component).socketConnection;
     }
 }
