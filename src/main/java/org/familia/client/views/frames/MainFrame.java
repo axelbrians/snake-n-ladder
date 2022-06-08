@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
 
         setController(controller);
         setProvider();
-        setConnection();
+        checkAndSetConnection();
 
         pack();
         setLocationRelativeTo(null);
@@ -86,11 +86,13 @@ public class MainFrame extends JFrame {
         dataProvider = new DataProvider();
     }
 
-    public void setConnection() {
+    public void checkAndSetConnection() {
         try {
+            if (socketConnection != null) {
+                return;
+            }
             socketConnection = new SocketConnection(dataProvider);
         } catch (Exception exception) {
-            System.out.println("Is " + (socketConnection == null));
             Layout layout = controller.getLayout();
             if (layout.getClass() == StartGameLayout.class) {
                 StartGameLayout startGameLayout = (StartGameLayout) layout;

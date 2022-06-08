@@ -49,8 +49,8 @@ public class SelectPlayerController implements ActionListener {
             return;
         }
 
-        while (socketConnection == null) {
-            ComponentProvider.getFrameAncestor(selectPlayer).setConnection();
+        ComponentProvider.getFrameAncestor(selectPlayer).checkAndSetConnection();
+        if (socketConnection == null) {
             return;
         }
 
